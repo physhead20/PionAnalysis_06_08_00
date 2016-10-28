@@ -1,5 +1,6 @@
 *.root
 ROOTFILES/*.root
-PionMCAna/*.root
+PiMinusMC/*.so
+PiMinusMC/*.d
 Data/*.so
 Data/*.d
