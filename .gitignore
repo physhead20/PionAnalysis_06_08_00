@@ -1,0 +1,5 @@
+*.root
+ROOTFILES/*.root
+PionMCAna/*.root
+Data/*.so
+Data/*.d
