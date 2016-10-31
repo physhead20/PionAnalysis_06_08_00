@@ -264,10 +264,20 @@ float EventWeight = 1.0;
 // ### True  = Use the momentum based weighting  ###
 // ### False = Don't weight events               ###
 // #################################################
-bool UseEventWeight = false;
+bool UseEventWeight = true;
 
-bool ScaleByPz = false;
+bool ScaleByPz = true;
 bool ScaleByKE = false;
+
+
+// #####################################
+// ### Scale the dE/dX to match data ###
+// ### True = apply scale factor     ###
+// ### False = don't apply scaling   ###
+// #####################################
+bool ScaledEdX = true;
+
+float ScaleFactor = 1.0909;
 
 
 // ######################################################
@@ -319,8 +329,9 @@ bool VERBOSE = false;
 // ###############################################
 // ### Creating a file to output my histograms ###
 // ###############################################
-//TFile myfile("PionMC_PionXSection_histos_noCorrections.root","RECREATE");
-TFile myfile("PionMC_PionXSection_histos_noCorrections_noScalings.root","RECREATE");
+//TFile myfile("PionMC_PionXSection_histos_noCorrections_noScalings.root","RECREATE");
+//TFile myfile("PionMC_PionXSection_histos_noCorrections_wScalings.root","RECREATE");
+TFile myfile("PionMC_PionXSection_histos_noCorrections_wScalings_dEdXScale.root","RECREATE");
 //TFile myfile("PionMC_PionXSection_histos_PzScaling_newEnergyLoss_Reordering.root","RECREATE");
 //TFile myfile("PionMC_PionXSection_histos_noCorrections_PzScaling_newEnergyLoss_reorderingOnly.root","RECREATE");
 //TFile myfile("PionMC_PionXSection_histos_noCorrections_PzScaling_newEnergyLoss_FixExtremeFluctuation.root","RECREATE");
@@ -1369,6 +1380,16 @@ for (Long64_t jentry=0; jentry<nentries;jentry++)
 	 // ###                 Note: Format for this variable is:             ###
 	 // ### [trk number][plane 0 = induction, 1 = collection][spts number] ###
          Piondedx[nPionSpts]     = trkdedx[nTPCtrk][1][nspts];
+	 
+	 // ####################################################################
+	 // #### Applying scale factor to get agreement between data and MC ####
+	 // ####################################################################
+	 if(ScaledEdX)
+	    {
+	    Piondedx[nPionSpts]     = trkdedx[nTPCtrk][1][nspts]*(ScaleFactor);
+	    
+	    
+	    }
 	 
 	 // ### Putting in a fix in the case that the dE/dX is negative in this step ### 
 	 // ###  then take the point before and the point after and average them

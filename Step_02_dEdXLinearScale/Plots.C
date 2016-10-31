@@ -13,7 +13,7 @@ TFile *f1 = new TFile("./histo_ROOTFILES/Data_PionXSection_histos_noCorrections.
 // ###################################
 // ### Load Pion Monte Carlo Plots ###
 // ###################################
-TFile *f2 = new TFile("./histo_ROOTFILES/PionMC_PionXSection_histos_noCorrections_wScalings.root");
+TFile *f2 = new TFile("./histo_ROOTFILES/PionMC_PionXSection_histos_noCorrections_wScalings_dEdXScale.root");
 
 //--------------------------------------------------------------------------------------------------------------
 //						Delta X WC-TPC Track
@@ -481,8 +481,8 @@ leg->SetShadowColor(kWhite);
 leg->SetHeader("Run-I Data");
 leg->AddEntry(hDatadEdX,"Data");
 leg->AddEntry(hMCdEdX,"#pi^{-} MC"); 
-leg->AddEntry(dataFit_histo,"Data Fit: MPV = 1.97 #sigma 0.17");
-leg->AddEntry(MCFit_histo," MC  Fit: MPV = 1.80 #sigma 0.24");
+leg->AddEntry(dataFit_histo,"Data Fit: MPV = 1.97 #sigma 0.43");
+leg->AddEntry(MCFit_histo," MC  Fit: MPV = 1.96 #sigma 0.26");
 leg->Draw();
 
 
