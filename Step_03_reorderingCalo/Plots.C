@@ -7,14 +7,13 @@
 // #######################
 // ### Load Data Plots ###
 // #######################
-TFile *f1 = new TFile("./histo_ROOTFILES/Data_PionXSection_histos_noCorrections.root");
+TFile *f1 = new TFile("./histo_ROOTFILES/Data_PionXSection_histos_reorderingOnly.root");
 
 
 // ###################################
 // ### Load Pion Monte Carlo Plots ###
 // ###################################
-//TFile *f2 = new TFile("./histo_ROOTFILES/PionMC_PionXSection_histos_noCorrections_wScalings.root");
-TFile *f2 = new TFile("./histo_ROOTFILES/PionMC_PionXSection_histos_noCorrections_noScalings.root");
+TFile *f2 = new TFile("./histo_ROOTFILES/PionMC_PionXSection_histos_noCorrections_wScalings_dEdXScale_Reordering.root");
 
 //--------------------------------------------------------------------------------------------------------------
 //						Delta X WC-TPC Track
@@ -134,7 +133,7 @@ leg->SetTextAlign(12);
 leg->SetFillColor(kWhite);
 leg->SetLineColor(kWhite);
 leg->SetShadowColor(kWhite);
-leg->SetHeader("LArIAT Run-I");
+leg->SetHeader("Run-I Data");
 leg->AddEntry(hDataDeltaXMatch,"Data");
 leg->AddEntry(combined_histo,"Right Match"); 
 leg->AddEntry(wrong_histo1,"Wrong Match");
@@ -259,7 +258,7 @@ leg->SetTextAlign(12);
 leg->SetFillColor(kWhite);
 leg->SetLineColor(kWhite);
 leg->SetShadowColor(kWhite);
-leg->SetHeader("LArIAT Run-I");
+leg->SetHeader("Run-I Data");
 leg->AddEntry(hDataDeltaYMatch,"Data");
 leg->AddEntry(combined_histo2,"Right Match"); 
 leg->AddEntry(wrong_histo2,"Wrong Match");
@@ -479,11 +478,11 @@ leg->SetTextAlign(12);
 leg->SetFillColor(kWhite);
 leg->SetLineColor(kWhite);
 leg->SetShadowColor(kWhite);
-leg->SetHeader("LArIAT Run-I");
+leg->SetHeader("Run-I Data");
 leg->AddEntry(hDatadEdX,"Data");
 leg->AddEntry(hMCdEdX,"#pi^{-} MC"); 
-leg->AddEntry(dataFit_histo,"Data Fit: MPV = 1.97 #sigma 0.17");
-leg->AddEntry(MCFit_histo," MC  Fit: MPV = 1.80 #sigma 0.24");
+leg->AddEntry(dataFit_histo,"Data Fit: MPV = 1.97 #sigma 0.43");
+leg->AddEntry(MCFit_histo," MC  Fit: MPV = 1.96 #sigma 0.26");
 leg->Draw();
 
 
@@ -582,7 +581,7 @@ leg->SetTextAlign(12);
 leg->SetFillColor(kWhite);
 leg->SetLineColor(kWhite);
 leg->SetShadowColor(kWhite);
-leg->SetHeader("LArIAT Run-I");
+leg->SetHeader("Run-I Data");
 leg->AddEntry(hDataInKE,"Data");
 leg->AddEntry(hMCInKE,"#pi^{-} MC"); 
 //leg->AddEntry(dataFit_histo,"Data Fit: MPV = 1.68 #sigma 0.17");
@@ -679,7 +678,7 @@ leg->SetTextAlign(12);
 leg->SetFillColor(kWhite);
 leg->SetLineColor(kWhite);
 leg->SetShadowColor(kWhite);
-leg->SetHeader("LArIAT Run-I");
+leg->SetHeader("Run-I Data");
 leg->AddEntry(hDataIntKE,"Data");
 leg->AddEntry(hMCIntKE,"#pi^{-} MC"); 
 //leg->AddEntry(dataFit_histo,"Data Fit: MPV = 1.68 #sigma 0.17");
@@ -766,7 +765,7 @@ leg->SetTextAlign(12);
 leg->SetFillColor(kWhite);
 leg->SetLineColor(kWhite);
 leg->SetShadowColor(kWhite);
-leg->SetHeader("LArIAT Run-I");
+leg->SetHeader("Run-I Data");
 leg->AddEntry(hDataTrkPitch,"Data");
 leg->AddEntry(hMCTrkPitch,"#pi^{-} MC"); 
 //leg->AddEntry(dataFit_histo,"Data Fit: MPV = 1.68 #sigma 0.17");
@@ -888,7 +887,7 @@ leg->SetTextAlign(12);
 leg->SetFillColor(kWhite);
 leg->SetLineColor(kWhite);
 leg->SetShadowColor(kWhite);
-leg->SetHeader("LArIAT Run-I");
+leg->SetHeader("Run-I Data");
 leg->AddEntry(hDataTrkLength,"Data");
 leg->AddEntry(hMCTrkLength,"#pi^{-} MC"); 
 leg->Draw();

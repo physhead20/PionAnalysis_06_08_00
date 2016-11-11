@@ -57,6 +57,9 @@ TH1D *hdataNMatchTPCWCTrk = new TH1D("hdataNMatchTPCWCTrk", "Number of matched T
 /////////////////////////////////// WCTRK Momentum Histogram (MeV) //////////////////////////////////////////
 TH1D *hdataWCTRKMomentum = new TH1D("hdataWCTRKMomentum", "WCtrk Momentum (MeV)", 250, 0, 2500);
 
+/////////////////////////////////// RAAW WCTRK MOMENTUM HISTORGRAM (MeV) ///////////////////////////////////
+TH1D *hdataRawWCTRKMomentum = new TH1D("hdataRawWCTRKMomentum", "Raw WCtrk Momentum (MeV)", 250, 0, 2500);
+
 /////////////////////////////////// Initial Kinetic Energy (MeV) /////////////////////////////////////////////
 TH1D *hdataInitialKEMomentum = new TH1D("hdataInitialKEMomentum", "Pion Initial Momentum (MeV)", 500, 0, 2500); 
 
@@ -131,7 +134,7 @@ float particle_mass = 139.57; //<---Mass of Pion in MeV
 // ### Preliminary TOF Cut (sets the bounds for TOF Reco) ###
 // ##########################################################
 double LowerTOFGoodReco = 0;
-double UpperTOFGoodReco = 30;
+double UpperTOFGoodReco = 90;
 
 // ###################################################
 // ### Setting the Wire Chamber momentum range and ###
@@ -218,7 +221,7 @@ bool UseEventWeight = false;
 // ### True  = Use the fix                            ###
 // ### False = Don't use the fix                      ###
 // ######################################################
-bool FixCaloIssue_Reordering = false; 
+bool FixCaloIssue_Reordering = true; 
 
 
 // ######################################################
@@ -228,7 +231,7 @@ bool FixCaloIssue_Reordering = false;
 // ### True  = Use the fix                            ###
 // ### False = Don't use the fix                      ###
 // ######################################################
-bool FixCaloIssue_ExtremeFluctuation = false;     
+bool FixCaloIssue_ExtremeFluctuation = true;     
 
 // ########################################################
 // ###   Choose whether or not to fix the calo problems ###
@@ -255,9 +258,9 @@ bool RemoveStopping = false;
 // ###############################################
 // ### Creating a file to output my histograms ###
 // ###############################################
-TFile myfile("Data_PionXSection_histos_noCorrections.root","RECREATE");
+//TFile myfile("Data_PionXSection_histos_noCorrections.root","RECREATE");
 //TFile myfile("Data_PionXSection_histos_reorderingOnly.root","RECREATE");
-//TFile myfile("Data_PionXSection_histos_reordering_FixExtremeFluctuation.root","RECREATE");
+TFile myfile("Data_PionXSection_histos_reordering_FixExtremeFluctuation.root","RECREATE");
 //TFile myfile("Data_PionXSection_histos_reordering_FixExtremeAndSmallFluctuation.root","RECREATE");
 //TFile myfile("Data_PionXSection_histos_reordering_FixExtremeAndSmallFluctuation_RemoveStopping.root","RECREATE");   
 
@@ -295,7 +298,7 @@ float slab_width = 0.0045;//in m
 // ##########################################################
 int nTotalEvents = 0, nEvtsWCTrack = 0, nEvtsWCTrackMatch = 0, nEvtsTrackZPos = 0, nEvntsTPC = 0;
 int nEvtsTOF = 0, nEvtsPID = 0, nLowZTrkEvents = 0;
-int nNonShowerEvents = 0;
+int nNonShowerEvents = 0, nTOFHits = 0;;
 
 // #######################################################
 // ### Providing an index for the Matched WC/TPC track ###
@@ -331,7 +334,15 @@ for (Long64_t jentry=0; jentry<nentries;jentry++)
    // ########################################
    // ### Skipping events with no WC Track ###
    // ########################################
-   if(nwctrks < 1){hdataWCTrackExist->Fill(0); continue;}
+   if(nwctrks < 1){ hdataWCTrackExist->Fill(0); continue;}
+   
+   // ### Loop over the WCTracks and TOF Objects ###
+   for (int numWCTrk = 0; numWCTrk < nwctrks; numWCTrk++)
+      {
+      hdataRawWCTRKMomentum->Fill(wctrk_momentum[numWCTrk]);
+      
+      }//<---End loop over WCTrk
+      
    // ### Counting Events w/ WC Track ###
    hdataWCTrackExist->Fill(1);
    nEvtsWCTrack++;
@@ -358,6 +369,7 @@ for (Long64_t jentry=0; jentry<nentries;jentry++)
       
       
       }//<---End mmtof
+   if(ntof>0){nTOFHits++;}
    
    if(!tofGood){continue;}
    nEvtsTOF++;
@@ -1212,6 +1224,7 @@ std::cout<<"####################################################################
 std::cout<<"### Number of Events in AnaModule                                = "<<nTotalEvents<<" ###"<<std::endl;
 std::cout<<"-------------------------------   Stage 0   ----------------------------"<<std::endl;
 std::cout<<"### Number of Events w/ WC Track                                 = "<<nEvtsWCTrack<<" ###"<<std::endl;
+std::cout<<"### Number of Events w/ TOF Object                               = "<<nTOFHits<<std::endl;
 std::cout<<"### Number of Events w/ TOF > "<<LowerTOFGoodReco<<" ns and < "<<UpperTOFGoodReco<<" ns                   = "<<nEvtsTOF<<" ###"<<std::endl;
 std::cout<<"### Number of Events w/ Good TPC info (nHits > 0)		     = "<<nEvntsTPC<<" ###"<<std::endl;
 std::cout<<"-------------------------------   Stage 1   ----------------------------"<<std::endl;
@@ -1257,6 +1270,7 @@ fCrossSection->Write();
 hRecoLength->Write();
 hdataTrkInitialX->Write();
 hdataTrkInitialY->Write();
+hdataRawWCTRKMomentum->Write();
 
 
 

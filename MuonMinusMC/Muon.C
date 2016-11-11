@@ -1,8 +1,9 @@
-#define Pion_cxx
-#include "Pion.h"
+#define Muon_cxx
+#include "Muon.h"
 #include <TH2.h>
 #include <TStyle.h>
 #include <TCanvas.h>
+
 
 #include <iostream>
 #include <TVector3.h>
@@ -163,8 +164,7 @@ TH1D *hdataInteractingKEunweighted = new TH1D("hdataInteractingKEunweighted", "I
 /////////////////////////////////// Cross-Section ////////////////////////////////////////////////////////////////////////////
 TH1F *fCrossSection = new TH1F("fCrossSection", "Cross-Section", 40, 0, 2000);
 
-
-void Pion::Loop()
+void Muon::Loop()
 {
 if (fChain == 0) return;
 Long64_t nentries = fChain->GetEntriesFast();
@@ -275,7 +275,7 @@ bool ScaleByKE = false;
 // ### True = apply scale factor     ###
 // ### False = don't apply scaling   ###
 // #####################################
-bool ScaledEdX = true;
+bool ScaledEdX = false;
 
 float ScaleFactor = 1.0909;
 
@@ -287,7 +287,7 @@ float ScaleFactor = 1.0909;
 // ### True  = Use the fix                            ###
 // ### False = Don't use the fix                      ###
 // ######################################################
-bool FixCaloIssue_Reordering = true; 
+bool FixCaloIssue_Reordering = false; 
 
 
 // ######################################################
@@ -297,7 +297,7 @@ bool FixCaloIssue_Reordering = true;
 // ### True  = Use the fix                            ###
 // ### False = Don't use the fix                      ###
 // ######################################################
-bool FixCaloIssue_ExtremeFluctuation = true;     
+bool FixCaloIssue_ExtremeFluctuation = false;     
 
 // ########################################################
 // ###   Choose whether or not to fix the calo problems ###
@@ -329,11 +329,11 @@ bool VERBOSE = false;
 // ###############################################
 // ### Creating a file to output my histograms ###
 // ###############################################
-//TFile myfile("PionMC_PionXSection_histos_noCorrections_noScalings.root","RECREATE");
-//TFile myfile("PionMC_PionXSection_histos_noCorrections_wScalings.root","RECREATE");
+//TFile myfile("MuonMC_PionXSection_histos_noCorrections_noScalings.root","RECREATE");
+TFile myfile("MuonMC_PionXSection_histos_noCorrections_wScalings.root","RECREATE");
 //TFile myfile("PionMC_PionXSection_histos_noCorrections_wScalings_dEdXScale.root","RECREATE");
 //TFile myfile("PionMC_PionXSection_histos_noCorrections_wScalings_dEdXScale_Reordering.root","RECREATE");
-TFile myfile("PionMC_PionXSection_histos_noCorrections_wScalings_dEdXScale_Reordering_FixExtremeFluctuation.root.root","RECREATE");
+//TFile myfile("PionMC_PionXSection_histos_noCorrections_wScalings_dEdXScale_Reordering_FixExtremeFluctuation.root.root","RECREATE");
 //TFile myfile("PionMC_PionXSection_histos_noCorrections_PzScaling_newEnergyLoss_reorderingOnly.root","RECREATE");
 //TFile myfile("PionMC_PionXSection_histos_noCorrections_PzScaling_newEnergyLoss_FixExtremeFluctuation.root","RECREATE");
 //TFile myfile("PionMC_PionXSection_histos_KEWeight_reordering_FixExtremeAndSmallFluctuation.root","RECREATE");
@@ -1787,44 +1787,3 @@ hdataTrkInitialYUnweighted->Write();
 
    
 }//<---End Loop() Function
-
-
-// ### Old event weights ###
-/*if(g4Primary_Pz[nG4Primary] > 0   && g4Primary_Pz[nG4Primary] < 100){EventWeight = 0.010;}
-if(g4Primary_Pz[nG4Primary] > 100 && g4Primary_Pz[nG4Primary] < 200){EventWeight = 0.020;}
-if(g4Primary_Pz[nG4Primary] > 200 && g4Primary_Pz[nG4Primary] < 300){EventWeight = 0.100;}
-if(g4Primary_Pz[nG4Primary] > 300 && g4Primary_Pz[nG4Primary] < 400){EventWeight = 0.535;}
-if(g4Primary_Pz[nG4Primary] > 400 && g4Primary_Pz[nG4Primary] < 500){EventWeight = 0.840;}
-if(g4Primary_Pz[nG4Primary] > 500 && g4Primary_Pz[nG4Primary] < 600){EventWeight = 0.965;}
-if(g4Primary_Pz[nG4Primary] > 600 && g4Primary_Pz[nG4Primary] < 700){EventWeight = 1.000;}
-if(g4Primary_Pz[nG4Primary] > 700 && g4Primary_Pz[nG4Primary] < 800){EventWeight = 0.620;}
-if(g4Primary_Pz[nG4Primary] > 800 && g4Primary_Pz[nG4Primary] < 900){EventWeight = 0.225;}
-if(g4Primary_Pz[nG4Primary] > 900 && g4Primary_Pz[nG4Primary] <1000){EventWeight = 0.094;}
-if(g4Primary_Pz[nG4Primary] >1000 && g4Primary_Pz[nG4Primary] <1100){EventWeight = 0.0275;}
- if(g4Primary_Pz[nG4Primary] >1100){EventWeight = 0.010;}*/
- 
-// ### New Event weights ###
-/*if(g4Primary_Pz[nG4Primary] > 0   && g4Primary_Pz[nG4Primary] < 100){EventWeight = 0.0;}
-if(g4Primary_Pz[nG4Primary] > 100   && g4Primary_Pz[nG4Primary] < 150){EventWeight = 0.001276;}
-if(g4Primary_Pz[nG4Primary] > 150   && g4Primary_Pz[nG4Primary] < 200){EventWeight = 0.006496;}
-if(g4Primary_Pz[nG4Primary] > 200   && g4Primary_Pz[nG4Primary] < 250){EventWeight = 0.006496;}
-if(g4Primary_Pz[nG4Primary] > 250   && g4Primary_Pz[nG4Primary] < 300){EventWeight = 0.665;}
-if(g4Primary_Pz[nG4Primary] > 300   && g4Primary_Pz[nG4Primary] < 350){EventWeight = 0.600;}
-if(g4Primary_Pz[nG4Primary] > 350   && g4Primary_Pz[nG4Primary] < 400){EventWeight = 0.793;}
-if(g4Primary_Pz[nG4Primary] > 400   && g4Primary_Pz[nG4Primary] < 450){EventWeight = 0.925;}
-if(g4Primary_Pz[nG4Primary] > 450   && g4Primary_Pz[nG4Primary] < 500){EventWeight = 0.735;}
-if(g4Primary_Pz[nG4Primary] > 500   && g4Primary_Pz[nG4Primary] < 550){EventWeight = 0.690;}
-if(g4Primary_Pz[nG4Primary] > 550   && g4Primary_Pz[nG4Primary] < 600){EventWeight = 0.882;}
-if(g4Primary_Pz[nG4Primary] > 600   && g4Primary_Pz[nG4Primary] < 650){EventWeight = 1.0;}
-if(g4Primary_Pz[nG4Primary] > 650   && g4Primary_Pz[nG4Primary] < 700){EventWeight = 0.984;}
-if(g4Primary_Pz[nG4Primary] > 700   && g4Primary_Pz[nG4Primary] < 750){EventWeight = 0.743;}
-if(g4Primary_Pz[nG4Primary] > 750   && g4Primary_Pz[nG4Primary] < 800){EventWeight = 0.552;}
-if(g4Primary_Pz[nG4Primary] > 800   && g4Primary_Pz[nG4Primary] < 850){EventWeight = 0.388;}
-if(g4Primary_Pz[nG4Primary] > 850   && g4Primary_Pz[nG4Primary] < 900){EventWeight = 0.292;}
-if(g4Primary_Pz[nG4Primary] > 900   && g4Primary_Pz[nG4Primary] < 950){EventWeight = 0.163;}
-if(g4Primary_Pz[nG4Primary] > 950   && g4Primary_Pz[nG4Primary] < 1000){EventWeight = 0.093;}
-if(g4Primary_Pz[nG4Primary] > 1000   && g4Primary_Pz[nG4Primary] < 1050){EventWeight = 0.059;}
-if(g4Primary_Pz[nG4Primary] > 1050   && g4Primary_Pz[nG4Primary] < 1100){EventWeight = 0.034;}
-if(g4Primary_Pz[nG4Primary] > 1100   && g4Primary_Pz[nG4Primary] < 1150){EventWeight = 0.009;}
-if(g4Primary_Pz[nG4Primary] > 1150   && g4Primary_Pz[nG4Primary] < 1500){EventWeight = 0.003;}
-if(g4Primary_Pz[nG4Primary] > 1500){EventWeight = 0.0;}*/
