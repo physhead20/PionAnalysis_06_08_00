@@ -13,7 +13,7 @@ TFile *f1 = new TFile("./histo_ROOTFILES/Data_PionXSection_histos_reorderingOnly
 // ###################################
 // ### Load Pion Monte Carlo Plots ###
 // ###################################
-TFile *f2 = new TFile("./histo_ROOTFILES/PionMC_PionXSection_histos_noCorrections_wScalings_dEdXScale_Reordering.root");
+TFile *f2 = new TFile("./histo_ROOTFILES/PionMC_PionXSection_histos_wScalings_dEdXScale_Reordering.root");
 
 //--------------------------------------------------------------------------------------------------------------
 //						Delta X WC-TPC Track

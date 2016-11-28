@@ -120,6 +120,9 @@ TH1D *hdataPionTrkPitch = new TH1D("hdataPionTrkPitch", "Matched Track Pitch", 1
 ///////////////////////////////// "Matched Track" dE/dX vs RR ///////////////////////////////////////////////
 TH2D *hdataPiondEdXvsRR = new TH2D("hdataPiondEdXvsRR", "dE/dX vs Residual Range",200, 0, 100, 200, 0, 50);
 
+///////////////////////////////// "Matched Track" dE/dX vs RR (Fixed) ///////////////////////////////////////////////
+TH2D *hdataPiondEdXvsRRFix = new TH2D("hdataPiondEdXvsRRFix", "dE/dX vs Residual Range",200, 0, 100, 200, 0, 50);
+
 
 //////////////////////////////// "Low Momentum Track" PIDA (no cuts) ///////////////////////////////////////
 TH1D *hdataLowMomentumTrkPIDA = new TH1D("hdataLowMomentumTrkPIDA", "Low Momentum PIDA", 30, 0, 30);
@@ -278,7 +281,7 @@ bool ScaleByKE = false;
 // ### True = apply scale factor     ###
 // ### False = don't apply scaling   ###
 // #####################################
-bool ScaledEdX = false;
+bool ScaledEdX = true;
 
 float ScaleFactor = 1.0909;
 
@@ -290,7 +293,7 @@ float ScaleFactor = 1.0909;
 // ### True  = Use the fix                            ###
 // ### False = Don't use the fix                      ###
 // ######################################################
-bool FixCaloIssue_Reordering = false; 
+bool FixCaloIssue_Reordering = true; 
 
 
 // ######################################################
@@ -333,9 +336,9 @@ bool VERBOSE = false;
 // ### Creating a file to output my histograms ###
 // ###############################################
 //TFile myfile("ElectronMC_PionXSection_histos_noCorrections_noScalings.root","RECREATE");
-TFile myfile("ElectronMC_PionXSection_histos_noCorrections_wScalings.root","RECREATE");
+//TFile myfile("ElectronMC_PionXSection_histos_noCorrections_wScalings.root","RECREATE");
 //TFile myfile("ElectronMC_PionXSection_histos_noCorrections_wScalings_dEdXScale.root","RECREATE");
-//TFile myfile("ElectronMC_PionXSection_histos_noCorrections_wScalings_dEdXScale_Reordering.root","RECREATE");
+TFile myfile("ElectronMC_PionXSection_histos_noCorrections_wScalings_dEdXScale_Reordering.root","RECREATE");
 //TFile myfile("ElectronMC_PionXSection_histos_noCorrections_wScalings_dEdXScale_Reordering_FixExtremeFluctuation.root.root","RECREATE");
 //TFile myfile("ElectronMC_PionXSection_histos_noCorrections_PzScaling_newEnergyLoss_reorderingOnly.root","RECREATE");
 //TFile myfile("ElectronMC_PionXSection_histos_noCorrections_PzScaling_newEnergyLoss_FixExtremeFluctuation.root","RECREATE");
@@ -1605,6 +1608,17 @@ for (Long64_t jentry=0; jentry<nentries;jentry++)
       }//<---Only fixing calorimetry for less big fluctuations   
    
    
+   // ##########################################
+   // ### Filling the fixed dE/dX vs RR plot ###
+   // ##########################################
+   for(int caloPoints = 0; caloPoints < nPionSpts; caloPoints++)
+      {
+      
+      hdataPiondEdXvsRRFix->Fill(Pionresrange[caloPoints], Piondedx[caloPoints]);
+      
+      }//<---End Fix
+   
+   
    
    // =========================================================================================================================================
    //						Filling Incident and Interacting Histograms
@@ -1787,6 +1801,7 @@ hdataTrkInitialX->Write();
 hdataTrkInitialXUnweighted->Write();
 hdataTrkInitialY->Write();
 hdataTrkInitialYUnweighted->Write();
+hdataPiondEdXvsRRFix->Write();
 
    
 }//<---End Loop() Function

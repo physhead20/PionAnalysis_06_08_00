@@ -173,8 +173,13 @@ TFile *f2 = new TFile("./histo_ROOTFILES/PionMC_PionXSection_histos_noCorrection
  DataCrossSection->GetYaxis()->SetTitle("");
 
  //Drawing option 1
- TCanvas *c1 = new TCanvas("c1");//,"c1",600,400);
- c1->cd();
+// ########################
+// ### Making a TCanvas ###
+// ########################
+TCanvas *c01 = new TCanvas("c01", "Track Length");
+c01->SetTicks();
+c01->SetFillColor(kWhite);
+c01->cd();
  gStyle->SetOptStat(0);
 
  MCCrossSys->SetAxisRange(0,1200.);
@@ -195,18 +200,27 @@ TFile *f2 = new TFile("./histo_ROOTFILES/PionMC_PionXSection_histos_noCorrection
  leg->AddEntry(DataCrossSection, "Run-1 data, stat","ep");
  leg->Draw();
 
- TLatex *prelim = new TLatex(0.6,0.87,"LArIAT Preliminary");
- prelim->SetNDC();
- prelim->SetTextFont(42);
- prelim->SetTextSize(0.05);
- prelim->SetTextColor(kBlack);
- prelim->Draw();
+// ############################
+// # Setting the Latex Header #
+// ############################
+TLatex *prelim = new TLatex();
+prelim->SetNDC();
+prelim->SetTextFont(62);
+prelim->SetTextSize(0.04);
+prelim->SetTextAlign(40);
+prelim->DrawLatex(0.1,0.90,"LArIAT Preliminary");
+prelim->DrawLatex(0.13,0.84,"");
 
- c1->Print("xsec_MCband_opt1.png");
+c01->Print("xsec_MCband_opt1.png");
 
  //Drawing option 2
- TCanvas *c2 = new TCanvas("c2");//,"c2",600,400);
- c2->cd();
+// ########################
+// ### Making a TCanvas ###
+// ########################
+TCanvas *c02 = new TCanvas("c02", "Track Length");
+c02->SetTicks();
+c02->SetFillColor(kWhite);
+c02->cd();
  
  MCCrossSection->SetFillColor(0);
 
@@ -228,11 +242,16 @@ TFile *f2 = new TFile("./histo_ROOTFILES/PionMC_PionXSection_histos_noCorrection
  leg2->Draw();
  prelim->Draw();
 
- c2->Print("xsec_MCband_opt2.png");
+ c02->Print("xsec_MCband_opt2.png");
 
  //MC no error band
- TCanvas *c3 = new TCanvas("c3");//,"c3",600,400);
- c3->cd();
+// ########################
+// ### Making a TCanvas ###
+// ########################
+TCanvas *c03 = new TCanvas("c03", "Track Length");
+c03->SetTicks();
+c03->SetFillColor(kWhite);
+c03->cd();
  
  MCCrossSection->SetFillColor(0);
 
@@ -264,6 +283,6 @@ TFile *f2 = new TFile("./histo_ROOTFILES/PionMC_PionXSection_histos_noCorrection
  leg3->Draw();
  prelim->Draw();
 
- c3->Print("xsec_MC_noband.png");
+ c03->Print("xsec_MC_noband.png");
 
 }

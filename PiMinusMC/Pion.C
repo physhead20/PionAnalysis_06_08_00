@@ -297,7 +297,7 @@ bool FixCaloIssue_Reordering = true;
 // ### True  = Use the fix                            ###
 // ### False = Don't use the fix                      ###
 // ######################################################
-bool FixCaloIssue_ExtremeFluctuation = true;     
+bool FixCaloIssue_ExtremeFluctuation = false;     
 
 // ########################################################
 // ###   Choose whether or not to fix the calo problems ###
@@ -332,8 +332,8 @@ bool VERBOSE = false;
 //TFile myfile("PionMC_PionXSection_histos_noCorrections_noScalings.root","RECREATE");
 //TFile myfile("PionMC_PionXSection_histos_noCorrections_wScalings.root","RECREATE");
 //TFile myfile("PionMC_PionXSection_histos_noCorrections_wScalings_dEdXScale.root","RECREATE");
-//TFile myfile("PionMC_PionXSection_histos_noCorrections_wScalings_dEdXScale_Reordering.root","RECREATE");
-TFile myfile("PionMC_PionXSection_histos_noCorrections_wScalings_dEdXScale_Reordering_FixExtremeFluctuation.root.root","RECREATE");
+TFile myfile("PionMC_PionXSection_histos_wScalings_dEdXScale_Reordering.root","RECREATE");
+//TFile myfile("PionMC_PionXSection_histos_noCorrections_wScalings_dEdXScale_Reordering_FixExtremeFluctuation.root.root","RECREATE");
 //TFile myfile("PionMC_PionXSection_histos_noCorrections_PzScaling_newEnergyLoss_reorderingOnly.root","RECREATE");
 //TFile myfile("PionMC_PionXSection_histos_noCorrections_PzScaling_newEnergyLoss_FixExtremeFluctuation.root","RECREATE");
 //TFile myfile("PionMC_PionXSection_histos_KEWeight_reordering_FixExtremeAndSmallFluctuation.root","RECREATE");

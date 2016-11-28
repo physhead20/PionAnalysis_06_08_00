@@ -1,8 +1,9 @@
-#define Kaon_cxx
-#include "Kaon.h"
+#define Photon_cxx
+#include "Photon.h"
 #include <TH2.h>
 #include <TStyle.h>
 #include <TCanvas.h>
+
 
 #include <iostream>
 #include <TVector3.h>
@@ -120,9 +121,6 @@ TH1D *hdataPionTrkPitch = new TH1D("hdataPionTrkPitch", "Matched Track Pitch", 1
 ///////////////////////////////// "Matched Track" dE/dX vs RR ///////////////////////////////////////////////
 TH2D *hdataPiondEdXvsRR = new TH2D("hdataPiondEdXvsRR", "dE/dX vs Residual Range",200, 0, 100, 200, 0, 50);
 
-///////////////////////////////// "Matched Track" dE/dX vs RR (Fixed) ///////////////////////////////////////////////
-TH2D *hdataPiondEdXvsRRFix = new TH2D("hdataPiondEdXvsRRFix", "dE/dX vs Residual Range",200, 0, 100, 200, 0, 50);
-
 
 //////////////////////////////// "Low Momentum Track" PIDA (no cuts) ///////////////////////////////////////
 TH1D *hdataLowMomentumTrkPIDA = new TH1D("hdataLowMomentumTrkPIDA", "Low Momentum PIDA", 30, 0, 30);
@@ -166,8 +164,7 @@ TH1D *hdataInteractingKEunweighted = new TH1D("hdataInteractingKEunweighted", "I
 /////////////////////////////////// Cross-Section ////////////////////////////////////////////////////////////////////////////
 TH1F *fCrossSection = new TH1F("fCrossSection", "Cross-Section", 40, 0, 2000);
 
-
-void Kaon::Loop()
+void Photon::Loop()
 {
 if (fChain == 0) return;
 Long64_t nentries = fChain->GetEntriesFast();
@@ -300,7 +297,7 @@ bool FixCaloIssue_Reordering = true;
 // ### True  = Use the fix                            ###
 // ### False = Don't use the fix                      ###
 // ######################################################
-bool FixCaloIssue_ExtremeFluctuation = true;     
+bool FixCaloIssue_ExtremeFluctuation = false;     
 
 // ########################################################
 // ###   Choose whether or not to fix the calo problems ###
@@ -333,10 +330,10 @@ bool VERBOSE = false;
 // ### Creating a file to output my histograms ###
 // ###############################################
 //TFile myfile("ElectronMC_PionXSection_histos_noCorrections_noScalings.root","RECREATE");
-//TFile myfile("KaonMC_PionXSection_histos_noCorrections_wScalings.root","RECREATE");
-//TFile myfile("KaonMC_PionXSection_histos_noCorrections_wScalings_dEdXScale.root","RECREATE");
-//TFile myfile("KaonMC_PionXSection_histos_wScalings_dEdXScale_Reordering.root","RECREATE");
-TFile myfile("KaonMC_PionXSection_histos_wScalings_dEdXScale_Reordering_FixExtremeFluctuation.root","RECREATE");
+//TFile myfile("PhotonMC_PionXSection_histos_noCorrections_wScalings.root","RECREATE");
+//TFile myfile("PhotonMC_PionXSection_histos_noCorrections_wScalings_dEdXScale.root","RECREATE");
+TFile myfile("PhotonMC_PionXSection_histos_wScalings_dEdXScale_Reordering.root","RECREATE");
+//TFile myfile("ElectronMC_PionXSection_histos_noCorrections_wScalings_dEdXScale_Reordering_FixExtremeFluctuation.root.root","RECREATE");
 //TFile myfile("ElectronMC_PionXSection_histos_noCorrections_PzScaling_newEnergyLoss_reorderingOnly.root","RECREATE");
 //TFile myfile("ElectronMC_PionXSection_histos_noCorrections_PzScaling_newEnergyLoss_FixExtremeFluctuation.root","RECREATE");
 //TFile myfile("ElectronMC_PionXSection_histos_KEWeight_reordering_FixExtremeAndSmallFluctuation.root","RECREATE");
@@ -1605,16 +1602,6 @@ for (Long64_t jentry=0; jentry<nentries;jentry++)
       }//<---Only fixing calorimetry for less big fluctuations   
    
    
-   // ##########################################
-   // ### Filling the fixed dE/dX vs RR plot ###
-   // ##########################################
-   for(int caloPoints = 0; caloPoints < nPionSpts; caloPoints++)
-      {
-      
-      hdataPiondEdXvsRRFix->Fill(Pionresrange[caloPoints], Piondedx[caloPoints]);
-      
-      }//<---End Fix
-   
    
    // =========================================================================================================================================
    //						Filling Incident and Interacting Histograms
@@ -1797,6 +1784,6 @@ hdataTrkInitialX->Write();
 hdataTrkInitialXUnweighted->Write();
 hdataTrkInitialY->Write();
 hdataTrkInitialYUnweighted->Write();
-hdataPiondEdXvsRRFix->Write();
+
    
 }//<---End Loop() Function

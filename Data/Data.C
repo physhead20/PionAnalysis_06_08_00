@@ -78,6 +78,9 @@ TH1D *hdataPionTrkPitch = new TH1D("hdataPionTrkPitch", "Matched Track Pitch", 1
 ///////////////////////////////// "Matched Track" dE/dX vs RR ///////////////////////////////////////////////
 TH2D *hdataPiondEdXvsRR = new TH2D("hdataPiondEdXvsRR", "dE/dX vs Residual Range",200, 0, 100, 200, 0, 50);
 
+///////////////////////////////// "Matched Track" dE/dX vs RR (Fixed) ///////////////////////////////////////////////
+TH2D *hdataPiondEdXvsRRFix = new TH2D("hdataPiondEdXvsRRFix", "dE/dX vs Residual Range",200, 0, 100, 200, 0, 50);
+
 
 //////////////////////////////// "Low Momentum Track" PIDA (no cuts) ///////////////////////////////////////
 TH1D *hdataLowMomentumTrkPIDA = new TH1D("hdataLowMomentumTrkPIDA", "Low Momentum PIDA", 30, 0, 30);
@@ -1119,6 +1122,17 @@ for (Long64_t jentry=0; jentry<nentries;jentry++)
    
    
    
+   // ##########################################
+   // ### Filling the fixed dE/dX vs RR plot ###
+   // ##########################################
+   for(int caloPoints = 0; caloPoints < nPionSpts; caloPoints++)
+      {
+      
+      hdataPiondEdXvsRRFix->Fill(Pionresrange[caloPoints], Piondedx[caloPoints]);
+      
+      }//<---End Fix
+   
+   
    // =========================================================================================================================================
    //						Filling Incident and Interacting Histograms
    // =========================================================================================================================================
@@ -1271,6 +1285,7 @@ hRecoLength->Write();
 hdataTrkInitialX->Write();
 hdataTrkInitialY->Write();
 hdataRawWCTRKMomentum->Write();
+hdataPiondEdXvsRRFix->Write();
 
 
 

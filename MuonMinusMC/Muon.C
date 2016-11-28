@@ -275,7 +275,7 @@ bool ScaleByKE = false;
 // ### True = apply scale factor     ###
 // ### False = don't apply scaling   ###
 // #####################################
-bool ScaledEdX = false;
+bool ScaledEdX = true;
 
 float ScaleFactor = 1.0909;
 
@@ -287,7 +287,7 @@ float ScaleFactor = 1.0909;
 // ### True  = Use the fix                            ###
 // ### False = Don't use the fix                      ###
 // ######################################################
-bool FixCaloIssue_Reordering = false; 
+bool FixCaloIssue_Reordering = true; 
 
 
 // ######################################################
@@ -330,9 +330,9 @@ bool VERBOSE = false;
 // ### Creating a file to output my histograms ###
 // ###############################################
 //TFile myfile("MuonMC_PionXSection_histos_noCorrections_noScalings.root","RECREATE");
-TFile myfile("MuonMC_PionXSection_histos_noCorrections_wScalings.root","RECREATE");
-//TFile myfile("PionMC_PionXSection_histos_noCorrections_wScalings_dEdXScale.root","RECREATE");
-//TFile myfile("PionMC_PionXSection_histos_noCorrections_wScalings_dEdXScale_Reordering.root","RECREATE");
+//TFile myfile("MuonMC_PionXSection_histos_noCorrections_wScalings.root","RECREATE");
+//TFile myfile("MuonMC_PionXSection_histos_noCorrections_wScalings_dEdXScale.root","RECREATE");
+TFile myfile("MuonMC_PionXSection_histos_wScalings_dEdXScale_Reordering.root","RECREATE");
 //TFile myfile("PionMC_PionXSection_histos_noCorrections_wScalings_dEdXScale_Reordering_FixExtremeFluctuation.root.root","RECREATE");
 //TFile myfile("PionMC_PionXSection_histos_noCorrections_PzScaling_newEnergyLoss_reorderingOnly.root","RECREATE");
 //TFile myfile("PionMC_PionXSection_histos_noCorrections_PzScaling_newEnergyLoss_FixExtremeFluctuation.root","RECREATE");

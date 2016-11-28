@@ -9,8 +9,8 @@ TFile *f1 = new TFile("./histo_ROOTFILES/Data_PionXSection_histos_noCorrections.
 // ###################################
 // ### Load Pion Monte Carlo Plots ###
 // ###################################
-//TFile *f2 = new TFile("./histo_ROOTFILES/PionMC_PionXSection_histos_noCorrections_wScalings.root");
-TFile *f2 = new TFile("./histo_ROOTFILES/PionMC_PionXSection_histos_noCorrections_noScalings.root");
+TFile *f2 = new TFile("./histo_ROOTFILES/PionMC_PionXSection_histos_noCorrections_wScalings.root");
+//TFile *f2 = new TFile("./histo_ROOTFILES/PionMC_PionXSection_histos_noCorrections_noScalings.root");
 
 
 
@@ -77,6 +77,7 @@ hMCWCTrackMomentum->Scale(scaleMC);
 hMCWCTrackMomentum->Draw("histo");
 hdataWCTrackMomentum->Draw("E1same");
 
+//hdataWCTrackMomentum->Draw("E1");
 
 //--------------------------------------------------------------------------------------------------------------
 //						Beam Profile Plots (New) Data - MC / Data
