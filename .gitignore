@@ -4,3 +4,11 @@ PiMinusMC/*.so
 PiMinusMC/*.d
 Data/*.so
 Data/*.d
+KaonMinusMC/*.so
+KaonMinusMC/*.d
+MuonMinusMC/*.so
+MuonMinusMC/*.d
+ElectronMinusMC/*.so
+ElectronMinusMC/*.d
+PhotonMC/*.so
+PhotonMC/*.d

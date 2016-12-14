@@ -209,14 +209,14 @@ double FirstSpacePointZPos = 2.0;
 // ########################################################
 // ### Delta X Between Wire Chamber Track and TPC Track ###
 // ########################################################
-double DeltaXLowerBound = -2.0;
+double DeltaXLowerBound = -4.0;
 double DeltaXUpperBound = 6.0;
 
 // ########################################################
 // ### Delta Y Between Wire Chamber Track and TPC Track ###
 // ########################################################
-double DeltaYLowerBound = -3.0;
-double DeltaYUpperBound = 6.0;
+double DeltaYLowerBound = -5.0;
+double DeltaYUpperBound = 5.0;
 
 
 // ########################################################################
@@ -287,7 +287,7 @@ float ScaleFactor = 1.0909;
 // ### True  = Use the fix                            ###
 // ### False = Don't use the fix                      ###
 // ######################################################
-bool FixCaloIssue_Reordering = true; 
+bool FixCaloIssue_Reordering = false; 
 
 
 // ######################################################
@@ -329,15 +329,13 @@ bool VERBOSE = false;
 // ###############################################
 // ### Creating a file to output my histograms ###
 // ###############################################
-//TFile myfile("PionMC_PionXSection_histos_noCorrections_noScalings.root","RECREATE");
-//TFile myfile("PionMC_PionXSection_histos_noCorrections_wScalings.root","RECREATE");
-//TFile myfile("PionMC_PionXSection_histos_noCorrections_wScalings_dEdXScale.root","RECREATE");
-TFile myfile("PionMC_PionXSection_histos_wScalings_dEdXScale_Reordering.root","RECREATE");
-//TFile myfile("PionMC_PionXSection_histos_noCorrections_wScalings_dEdXScale_Reordering_FixExtremeFluctuation.root.root","RECREATE");
-//TFile myfile("PionMC_PionXSection_histos_noCorrections_PzScaling_newEnergyLoss_reorderingOnly.root","RECREATE");
-//TFile myfile("PionMC_PionXSection_histos_noCorrections_PzScaling_newEnergyLoss_FixExtremeFluctuation.root","RECREATE");
-//TFile myfile("PionMC_PionXSection_histos_KEWeight_reordering_FixExtremeAndSmallFluctuation.root","RECREATE");
-//TFile myfile("PionMC_PionXSection_histos_KEWeight_reordering_FixExtremeAndSmallFluctuation_RemoveStopping.root","RECREATE");
+//TFile myfile("PionMC_NewMatch_noCorrections_noScalings.root","RECREATE");
+//TFile myfile("PionMC_NewMatch_noCorrections_wScalings.root","RECREATE");
+TFile myfile("PionMC_NewMatch_wScalings_dEdXScale.root","RECREATE");
+//TFile myfile("PionMC_NewMatch_wScalings_dEdXScale_Reordering.root","RECREATE");
+//TFile myfile("PionMC_NewMatch_wScalings_dEdXScale_Reordering_FixExtremeFluctuation.root","RECREATE");
+//TFile myfile("PionMC_NewMatch_wScalings_dEdXScale_Reordering_FixExtremeAndSmallFluctuation.root","RECREATE");
+//TFile myfile("PionMC_NewMatch_wScalings_dEdXScale_Reordering_FixExtremeAndSmallFluctuation_RemoveStopping.root","RECREATE");
     
 
 // ----------------------------------------------------------------
@@ -486,152 +484,245 @@ for (Long64_t jentry=0; jentry<nentries;jentry++)
 		if(g4Primary_Pz[nG4Primary] > 70 && g4Primary_Pz[nG4Primary] < 80) {EventWeight = 0;}
 		if(g4Primary_Pz[nG4Primary] > 80 && g4Primary_Pz[nG4Primary] < 90) {EventWeight = 0;}
 		if(g4Primary_Pz[nG4Primary] > 90 && g4Primary_Pz[nG4Primary] < 100) {EventWeight = 0;}
-		if(g4Primary_Pz[nG4Primary] > 100 && g4Primary_Pz[nG4Primary] < 110) {EventWeight = 0;}
-		if(g4Primary_Pz[nG4Primary] > 110 && g4Primary_Pz[nG4Primary] < 120) {EventWeight = 0.0394467;}
-		if(g4Primary_Pz[nG4Primary] > 120 && g4Primary_Pz[nG4Primary] < 130) {EventWeight = 0.0116948;}
-		if(g4Primary_Pz[nG4Primary] > 130 && g4Primary_Pz[nG4Primary] < 140) {EventWeight = 0.0491883;}
-		if(g4Primary_Pz[nG4Primary] > 140 && g4Primary_Pz[nG4Primary] < 150) {EventWeight = 0.0122361;}
-		if(g4Primary_Pz[nG4Primary] > 150 && g4Primary_Pz[nG4Primary] < 160) {EventWeight = 0.0461236;}
-		if(g4Primary_Pz[nG4Primary] > 160 && g4Primary_Pz[nG4Primary] < 170) {EventWeight = 0.0386235;}
-		if(g4Primary_Pz[nG4Primary] > 170 && g4Primary_Pz[nG4Primary] < 180) {EventWeight = 0;}
-		if(g4Primary_Pz[nG4Primary] > 180 && g4Primary_Pz[nG4Primary] < 190) {EventWeight = 0.039729;}
-		if(g4Primary_Pz[nG4Primary] > 190 && g4Primary_Pz[nG4Primary] < 200) {EventWeight = 0.083178;}
-		if(g4Primary_Pz[nG4Primary] > 200 && g4Primary_Pz[nG4Primary] < 210) {EventWeight = 0.13709;}
-		if(g4Primary_Pz[nG4Primary] > 210 && g4Primary_Pz[nG4Primary] < 220) {EventWeight = 0.153958;}
-		if(g4Primary_Pz[nG4Primary] > 220 && g4Primary_Pz[nG4Primary] < 230) {EventWeight = 0.190141;}
-		if(g4Primary_Pz[nG4Primary] > 230 && g4Primary_Pz[nG4Primary] < 240) {EventWeight = 0.315283;}
-		if(g4Primary_Pz[nG4Primary] > 240 && g4Primary_Pz[nG4Primary] < 250) {EventWeight = 0.34083;}
-		if(g4Primary_Pz[nG4Primary] > 250 && g4Primary_Pz[nG4Primary] < 260) {EventWeight = 0.339349;}
-		if(g4Primary_Pz[nG4Primary] > 260 && g4Primary_Pz[nG4Primary] < 270) {EventWeight = 0.460212;}
-		if(g4Primary_Pz[nG4Primary] > 270 && g4Primary_Pz[nG4Primary] < 280) {EventWeight = 0.652126;}
-		if(g4Primary_Pz[nG4Primary] > 280 && g4Primary_Pz[nG4Primary] < 290) {EventWeight = 0.552275;}
-		if(g4Primary_Pz[nG4Primary] > 290 && g4Primary_Pz[nG4Primary] < 300) {EventWeight = 0.631804;}
-		if(g4Primary_Pz[nG4Primary] > 300 && g4Primary_Pz[nG4Primary] < 310) {EventWeight = 0.574978;}
-		if(g4Primary_Pz[nG4Primary] > 310 && g4Primary_Pz[nG4Primary] < 320) {EventWeight = 0.441614;}
-		if(g4Primary_Pz[nG4Primary] > 320 && g4Primary_Pz[nG4Primary] < 330) {EventWeight = 0.442496;}
-		if(g4Primary_Pz[nG4Primary] > 330 && g4Primary_Pz[nG4Primary] < 340) {EventWeight = 0.444424;}
-		if(g4Primary_Pz[nG4Primary] > 340 && g4Primary_Pz[nG4Primary] < 350) {EventWeight = 0.427087;}
-		if(g4Primary_Pz[nG4Primary] > 350 && g4Primary_Pz[nG4Primary] < 360) {EventWeight = 0.481184;}
-		if(g4Primary_Pz[nG4Primary] > 360 && g4Primary_Pz[nG4Primary] < 370) {EventWeight = 0.614676;}
-		if(g4Primary_Pz[nG4Primary] > 370 && g4Primary_Pz[nG4Primary] < 380) {EventWeight = 0.669724;}
-		if(g4Primary_Pz[nG4Primary] > 380 && g4Primary_Pz[nG4Primary] < 390) {EventWeight = 0.749961;}
-		if(g4Primary_Pz[nG4Primary] > 390 && g4Primary_Pz[nG4Primary] < 400) {EventWeight = 0.64685;}
-		if(g4Primary_Pz[nG4Primary] > 400 && g4Primary_Pz[nG4Primary] < 410) {EventWeight = 0.766217;}
-		if(g4Primary_Pz[nG4Primary] > 410 && g4Primary_Pz[nG4Primary] < 420) {EventWeight = 0.657489;}
-		if(g4Primary_Pz[nG4Primary] > 420 && g4Primary_Pz[nG4Primary] < 430) {EventWeight = 0.82787;}
-		if(g4Primary_Pz[nG4Primary] > 430 && g4Primary_Pz[nG4Primary] < 440) {EventWeight = 0.65135;}
-		if(g4Primary_Pz[nG4Primary] > 440 && g4Primary_Pz[nG4Primary] < 450) {EventWeight = 0.754109;}
-		if(g4Primary_Pz[nG4Primary] > 450 && g4Primary_Pz[nG4Primary] < 460) {EventWeight = 0.594128;}
-		if(g4Primary_Pz[nG4Primary] > 460 && g4Primary_Pz[nG4Primary] < 470) {EventWeight = 0.604807;}
-		if(g4Primary_Pz[nG4Primary] > 470 && g4Primary_Pz[nG4Primary] < 480) {EventWeight = 0.521486;}
-		if(g4Primary_Pz[nG4Primary] > 480 && g4Primary_Pz[nG4Primary] < 490) {EventWeight = 0.525957;}
-		if(g4Primary_Pz[nG4Primary] > 490 && g4Primary_Pz[nG4Primary] < 500) {EventWeight = 0.687406;}
-		if(g4Primary_Pz[nG4Primary] > 500 && g4Primary_Pz[nG4Primary] < 510) {EventWeight = 0.575486;}
-		if(g4Primary_Pz[nG4Primary] > 510 && g4Primary_Pz[nG4Primary] < 520) {EventWeight = 0.396372;}
-		if(g4Primary_Pz[nG4Primary] > 520 && g4Primary_Pz[nG4Primary] < 530) {EventWeight = 0.69702;}
-		if(g4Primary_Pz[nG4Primary] > 530 && g4Primary_Pz[nG4Primary] < 540) {EventWeight = 0.473296;}
-		if(g4Primary_Pz[nG4Primary] > 540 && g4Primary_Pz[nG4Primary] < 550) {EventWeight = 0.657136;}
-		if(g4Primary_Pz[nG4Primary] > 550 && g4Primary_Pz[nG4Primary] < 560) {EventWeight = 0.609789;}
-		if(g4Primary_Pz[nG4Primary] > 560 && g4Primary_Pz[nG4Primary] < 570) {EventWeight = 0.626572;}
-		if(g4Primary_Pz[nG4Primary] > 570 && g4Primary_Pz[nG4Primary] < 580) {EventWeight = 0.965056;}
-		if(g4Primary_Pz[nG4Primary] > 580 && g4Primary_Pz[nG4Primary] < 590) {EventWeight = 0.612897;}
-		if(g4Primary_Pz[nG4Primary] > 590 && g4Primary_Pz[nG4Primary] < 600) {EventWeight = 0.646971;}
-		if(g4Primary_Pz[nG4Primary] > 600 && g4Primary_Pz[nG4Primary] < 610) {EventWeight = 0.821176;}
-		if(g4Primary_Pz[nG4Primary] > 610 && g4Primary_Pz[nG4Primary] < 620) {EventWeight = 0.617933;}
-		if(g4Primary_Pz[nG4Primary] > 620 && g4Primary_Pz[nG4Primary] < 630) {EventWeight = 0.743826;}
-		if(g4Primary_Pz[nG4Primary] > 630 && g4Primary_Pz[nG4Primary] < 640) {EventWeight = 0.967145;}
-		if(g4Primary_Pz[nG4Primary] > 640 && g4Primary_Pz[nG4Primary] < 650) {EventWeight = 0.810075;}
-		if(g4Primary_Pz[nG4Primary] > 650 && g4Primary_Pz[nG4Primary] < 660) {EventWeight = 0.790846;}
-		if(g4Primary_Pz[nG4Primary] > 660 && g4Primary_Pz[nG4Primary] < 670) {EventWeight = 0.930068;}
-		if(g4Primary_Pz[nG4Primary] > 670 && g4Primary_Pz[nG4Primary] < 680) {EventWeight = 0.888341;}
-		if(g4Primary_Pz[nG4Primary] > 680 && g4Primary_Pz[nG4Primary] < 690) {EventWeight = 0.689189;}
-		if(g4Primary_Pz[nG4Primary] > 690 && g4Primary_Pz[nG4Primary] < 700) {EventWeight = 0.721056;}
-		if(g4Primary_Pz[nG4Primary] > 700 && g4Primary_Pz[nG4Primary] < 710) {EventWeight = 0.663121;}
-		if(g4Primary_Pz[nG4Primary] > 710 && g4Primary_Pz[nG4Primary] < 720) {EventWeight = 0.534852;}
-		if(g4Primary_Pz[nG4Primary] > 720 && g4Primary_Pz[nG4Primary] < 730) {EventWeight = 0.644254;}
-		if(g4Primary_Pz[nG4Primary] > 730 && g4Primary_Pz[nG4Primary] < 740) {EventWeight = 0.621043;}
-		if(g4Primary_Pz[nG4Primary] > 740 && g4Primary_Pz[nG4Primary] < 750) {EventWeight = 0.458999;}
-		if(g4Primary_Pz[nG4Primary] > 750 && g4Primary_Pz[nG4Primary] < 760) {EventWeight = 0.393768;}
-		if(g4Primary_Pz[nG4Primary] > 760 && g4Primary_Pz[nG4Primary] < 770) {EventWeight = 0.462677;}
-		if(g4Primary_Pz[nG4Primary] > 770 && g4Primary_Pz[nG4Primary] < 780) {EventWeight = 0.43895;}
-		if(g4Primary_Pz[nG4Primary] > 780 && g4Primary_Pz[nG4Primary] < 790) {EventWeight = 0.542286;}
-		if(g4Primary_Pz[nG4Primary] > 790 && g4Primary_Pz[nG4Primary] < 800) {EventWeight = 0.376872;}
-		if(g4Primary_Pz[nG4Primary] > 800 && g4Primary_Pz[nG4Primary] < 810) {EventWeight = 0.386235;}
-		if(g4Primary_Pz[nG4Primary] > 810 && g4Primary_Pz[nG4Primary] < 820) {EventWeight = 0.40083;}
-		if(g4Primary_Pz[nG4Primary] > 820 && g4Primary_Pz[nG4Primary] < 830) {EventWeight = 0.235207;}
-		if(g4Primary_Pz[nG4Primary] > 830 && g4Primary_Pz[nG4Primary] < 840) {EventWeight = 0.263977;}
-		if(g4Primary_Pz[nG4Primary] > 840 && g4Primary_Pz[nG4Primary] < 850) {EventWeight = 0.274179;}
-		if(g4Primary_Pz[nG4Primary] > 850 && g4Primary_Pz[nG4Primary] < 860) {EventWeight = 0.281282;}
-		if(g4Primary_Pz[nG4Primary] > 860 && g4Primary_Pz[nG4Primary] < 870) {EventWeight = 0.216234;}
-		if(g4Primary_Pz[nG4Primary] > 870 && g4Primary_Pz[nG4Primary] < 880) {EventWeight = 0.23058;}
-		if(g4Primary_Pz[nG4Primary] > 880 && g4Primary_Pz[nG4Primary] < 890) {EventWeight = 0.173233;}
-		if(g4Primary_Pz[nG4Primary] > 890 && g4Primary_Pz[nG4Primary] < 900) {EventWeight = 0.256073;}
-		if(g4Primary_Pz[nG4Primary] > 900 && g4Primary_Pz[nG4Primary] < 910) {EventWeight = 0.13419;}
-		if(g4Primary_Pz[nG4Primary] > 910 && g4Primary_Pz[nG4Primary] < 920) {EventWeight = 0.142591;}
-		if(g4Primary_Pz[nG4Primary] > 920 && g4Primary_Pz[nG4Primary] < 930) {EventWeight = 0.108865;}
-		if(g4Primary_Pz[nG4Primary] > 930 && g4Primary_Pz[nG4Primary] < 940) {EventWeight = 0.121757;}
-		if(g4Primary_Pz[nG4Primary] > 940 && g4Primary_Pz[nG4Primary] < 950) {EventWeight = 0.123587;}
-		if(g4Primary_Pz[nG4Primary] > 950 && g4Primary_Pz[nG4Primary] < 960) {EventWeight = 0.0765811;}
-		if(g4Primary_Pz[nG4Primary] > 960 && g4Primary_Pz[nG4Primary] < 970) {EventWeight = 0.0750288;}
-		if(g4Primary_Pz[nG4Primary] > 970 && g4Primary_Pz[nG4Primary] < 980) {EventWeight = 0.0751557;}
-		if(g4Primary_Pz[nG4Primary] > 980 && g4Primary_Pz[nG4Primary] < 990) {EventWeight = 0.0807163;}
-		if(g4Primary_Pz[nG4Primary] > 990 && g4Primary_Pz[nG4Primary] < 1000) {EventWeight = 0.060679;}
-		if(g4Primary_Pz[nG4Primary] > 1000 && g4Primary_Pz[nG4Primary] < 1010) {EventWeight = 0.0614854;}
-		if(g4Primary_Pz[nG4Primary] > 1010 && g4Primary_Pz[nG4Primary] < 1020) {EventWeight = 0.0602837;}
-		if(g4Primary_Pz[nG4Primary] > 1020 && g4Primary_Pz[nG4Primary] < 1030) {EventWeight = 0.011658;}
-		if(g4Primary_Pz[nG4Primary] > 1030 && g4Primary_Pz[nG4Primary] < 1040) {EventWeight = 0.0639278;}
-		if(g4Primary_Pz[nG4Primary] > 1040 && g4Primary_Pz[nG4Primary] < 1050) {EventWeight = 0.0367083;}
-		if(g4Primary_Pz[nG4Primary] > 1050 && g4Primary_Pz[nG4Primary] < 1060) {EventWeight = 0.0377696;}
-		if(g4Primary_Pz[nG4Primary] > 1060 && g4Primary_Pz[nG4Primary] < 1070) {EventWeight = 0.0247173;}
-		if(g4Primary_Pz[nG4Primary] > 1070 && g4Primary_Pz[nG4Primary] < 1080) {EventWeight = 0.0128077;}
-		if(g4Primary_Pz[nG4Primary] > 1080 && g4Primary_Pz[nG4Primary] < 1090) {EventWeight = 0.0369526;}
-		if(g4Primary_Pz[nG4Primary] > 1090 && g4Primary_Pz[nG4Primary] < 1100) {EventWeight = 0.0232064;}
-		if(g4Primary_Pz[nG4Primary] > 1100 && g4Primary_Pz[nG4Primary] < 1110) {EventWeight = 0.0128077;}
-		if(g4Primary_Pz[nG4Primary] > 1110 && g4Primary_Pz[nG4Primary] < 1120) {EventWeight = 0;}
-		if(g4Primary_Pz[nG4Primary] > 1120 && g4Primary_Pz[nG4Primary] < 1130) {EventWeight = 0;}
-		if(g4Primary_Pz[nG4Primary] > 1130 && g4Primary_Pz[nG4Primary] < 1140) {EventWeight = 0;}
-		if(g4Primary_Pz[nG4Primary] > 1140 && g4Primary_Pz[nG4Primary] < 1150) {EventWeight = 0.0254831;}
-		if(g4Primary_Pz[nG4Primary] > 1150 && g4Primary_Pz[nG4Primary] < 1160) {EventWeight = 0;}
-		if(g4Primary_Pz[nG4Primary] > 1160 && g4Primary_Pz[nG4Primary] < 1170) {EventWeight = 0;}
-		if(g4Primary_Pz[nG4Primary] > 1170 && g4Primary_Pz[nG4Primary] < 1180) {EventWeight = 0;}
-		if(g4Primary_Pz[nG4Primary] > 1180 && g4Primary_Pz[nG4Primary] < 1190) {EventWeight = 0;}
-		if(g4Primary_Pz[nG4Primary] > 1190 && g4Primary_Pz[nG4Primary] < 1200) {EventWeight = 0.0111489;}
-		if(g4Primary_Pz[nG4Primary] > 1200 && g4Primary_Pz[nG4Primary] < 1210) {EventWeight = 0.0120176;}
-		if(g4Primary_Pz[nG4Primary] > 1210 && g4Primary_Pz[nG4Primary] < 1220) {EventWeight = 0;}
-		if(g4Primary_Pz[nG4Primary] > 1220 && g4Primary_Pz[nG4Primary] < 1230) {EventWeight = 0;}
-		if(g4Primary_Pz[nG4Primary] > 1230 && g4Primary_Pz[nG4Primary] < 1240) {EventWeight = 0;}
-		if(g4Primary_Pz[nG4Primary] > 1240 && g4Primary_Pz[nG4Primary] < 1250) {EventWeight = 0;}
-		if(g4Primary_Pz[nG4Primary] > 1250 && g4Primary_Pz[nG4Primary] < 1260) {EventWeight = 0.011302;}
-		if(g4Primary_Pz[nG4Primary] > 1260 && g4Primary_Pz[nG4Primary] < 1270) {EventWeight = 0;}
-		if(g4Primary_Pz[nG4Primary] > 1270 && g4Primary_Pz[nG4Primary] < 1280) {EventWeight = 0.0130792;}
-		if(g4Primary_Pz[nG4Primary] > 1280 && g4Primary_Pz[nG4Primary] < 1290) {EventWeight = 0;}
-		if(g4Primary_Pz[nG4Primary] > 1290 && g4Primary_Pz[nG4Primary] < 1300) {EventWeight = 0;}
-		if(g4Primary_Pz[nG4Primary] > 1300 && g4Primary_Pz[nG4Primary] < 1310) {EventWeight = 0;}
-		if(g4Primary_Pz[nG4Primary] > 1310 && g4Primary_Pz[nG4Primary] < 1320) {EventWeight = 0;}
-		if(g4Primary_Pz[nG4Primary] > 1320 && g4Primary_Pz[nG4Primary] < 1330) {EventWeight = 0;}
-		if(g4Primary_Pz[nG4Primary] > 1330 && g4Primary_Pz[nG4Primary] < 1340) {EventWeight = 0;}
-		if(g4Primary_Pz[nG4Primary] > 1340 && g4Primary_Pz[nG4Primary] < 1350) {EventWeight = 0.011658;}
-		if(g4Primary_Pz[nG4Primary] > 1350 && g4Primary_Pz[nG4Primary] < 1360) {EventWeight = 0;}
-		if(g4Primary_Pz[nG4Primary] > 1360 && g4Primary_Pz[nG4Primary] < 1370) {EventWeight = 0.0120961;}
-		if(g4Primary_Pz[nG4Primary] > 1370 && g4Primary_Pz[nG4Primary] < 1380) {EventWeight = 0.0260205;}
-		if(g4Primary_Pz[nG4Primary] > 1380 && g4Primary_Pz[nG4Primary] < 1390) {EventWeight = 0;}
-		if(g4Primary_Pz[nG4Primary] > 1390 && g4Primary_Pz[nG4Primary] < 1400) {EventWeight = 0;}
-		if(g4Primary_Pz[nG4Primary] > 1400 && g4Primary_Pz[nG4Primary] < 1410) {EventWeight = 0.0115309;}
-		if(g4Primary_Pz[nG4Primary] > 1410 && g4Primary_Pz[nG4Primary] < 1420) {EventWeight = 0;}
-		if(g4Primary_Pz[nG4Primary] > 1420 && g4Primary_Pz[nG4Primary] < 1430) {EventWeight = 0;}
-		if(g4Primary_Pz[nG4Primary] > 1430 && g4Primary_Pz[nG4Primary] < 1440) {EventWeight = 0;}
-		if(g4Primary_Pz[nG4Primary] > 1440 && g4Primary_Pz[nG4Primary] < 1450) {EventWeight = 0;}
-		if(g4Primary_Pz[nG4Primary] > 1450 && g4Primary_Pz[nG4Primary] < 1460) {EventWeight = 0;}
-		if(g4Primary_Pz[nG4Primary] > 1460 && g4Primary_Pz[nG4Primary] < 1470) {EventWeight = 0;}
-		if(g4Primary_Pz[nG4Primary] > 1470 && g4Primary_Pz[nG4Primary] < 1480) {EventWeight = 0;}
-		if(g4Primary_Pz[nG4Primary] > 1480 && g4Primary_Pz[nG4Primary] < 1490) {EventWeight = 0.0118445;}
-		if(g4Primary_Pz[nG4Primary] > 1490 && g4Primary_Pz[nG4Primary] < 1500) {EventWeight = 0;}
-		if(g4Primary_Pz[nG4Primary] > 1500 && g4Primary_Pz[nG4Primary] < 1510) {EventWeight = 0;}
-		if(g4Primary_Pz[nG4Primary] > 1510 && g4Primary_Pz[nG4Primary] < 1520) {EventWeight = 0;}
-		if(g4Primary_Pz[nG4Primary] > 1520 && g4Primary_Pz[nG4Primary] < 1530) {EventWeight = 0;}
-		if(g4Primary_Pz[nG4Primary] > 1530 && g4Primary_Pz[nG4Primary] < 1540) {EventWeight = 0;}
-		if(g4Primary_Pz[nG4Primary] > 1540 && g4Primary_Pz[nG4Primary] < 1550) {EventWeight = 0;}
-		if(g4Primary_Pz[nG4Primary] > 1550)					{EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 100 && g4Primary_Pz[nG4Primary] < 110) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 110 && g4Primary_Pz[nG4Primary] < 120) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 120 && g4Primary_Pz[nG4Primary] < 130) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 130 && g4Primary_Pz[nG4Primary] < 140) {EventWeight = 0.0244033;}
+if(g4Primary_Pz[nG4Primary] > 140 && g4Primary_Pz[nG4Primary] < 150) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 150 && g4Primary_Pz[nG4Primary] < 160) {EventWeight = 0.0457656;}
+if(g4Primary_Pz[nG4Primary] > 160 && g4Primary_Pz[nG4Primary] < 170) {EventWeight = 0.102197;}
+if(g4Primary_Pz[nG4Primary] > 170 && g4Primary_Pz[nG4Primary] < 180) {EventWeight = 0.191723;}
+if(g4Primary_Pz[nG4Primary] > 180 && g4Primary_Pz[nG4Primary] < 190) {EventWeight = 0.0657011;}
+if(g4Primary_Pz[nG4Primary] > 190 && g4Primary_Pz[nG4Primary] < 200) {EventWeight = 0.035371;}
+if(g4Primary_Pz[nG4Primary] > 200 && g4Primary_Pz[nG4Primary] < 210) {EventWeight = 0.0793482;}
+if(g4Primary_Pz[nG4Primary] > 210 && g4Primary_Pz[nG4Primary] < 220) {EventWeight = 0.114573;}
+if(g4Primary_Pz[nG4Primary] > 220 && g4Primary_Pz[nG4Primary] < 230) {EventWeight = 0.289287;}
+if(g4Primary_Pz[nG4Primary] > 230 && g4Primary_Pz[nG4Primary] < 240) {EventWeight = 0.350376;}
+if(g4Primary_Pz[nG4Primary] > 240 && g4Primary_Pz[nG4Primary] < 250) {EventWeight = 0.459932;}
+if(g4Primary_Pz[nG4Primary] > 250 && g4Primary_Pz[nG4Primary] < 260) {EventWeight = 0.660959;}
+if(g4Primary_Pz[nG4Primary] > 260 && g4Primary_Pz[nG4Primary] < 270) {EventWeight = 0.626249;}
+if(g4Primary_Pz[nG4Primary] > 270 && g4Primary_Pz[nG4Primary] < 280) {EventWeight = 0.874735;}
+if(g4Primary_Pz[nG4Primary] > 280 && g4Primary_Pz[nG4Primary] < 290) {EventWeight = 0.559648;}
+if(g4Primary_Pz[nG4Primary] > 290 && g4Primary_Pz[nG4Primary] < 300) {EventWeight = 0.827982;}
+if(g4Primary_Pz[nG4Primary] > 300 && g4Primary_Pz[nG4Primary] < 310) {EventWeight = 0.594286;}
+if(g4Primary_Pz[nG4Primary] > 310 && g4Primary_Pz[nG4Primary] < 320) {EventWeight = 0.518904;}
+if(g4Primary_Pz[nG4Primary] > 320 && g4Primary_Pz[nG4Primary] < 330) {EventWeight = 0.617059;}
+if(g4Primary_Pz[nG4Primary] > 330 && g4Primary_Pz[nG4Primary] < 340) {EventWeight = 0.554368;}
+if(g4Primary_Pz[nG4Primary] > 340 && g4Primary_Pz[nG4Primary] < 350) {EventWeight = 0.682744;}
+if(g4Primary_Pz[nG4Primary] > 350 && g4Primary_Pz[nG4Primary] < 360) {EventWeight = 0.661084;}
+if(g4Primary_Pz[nG4Primary] > 360 && g4Primary_Pz[nG4Primary] < 370) {EventWeight = 0.901599;}
+if(g4Primary_Pz[nG4Primary] > 370 && g4Primary_Pz[nG4Primary] < 380) {EventWeight = 0.664525;}
+if(g4Primary_Pz[nG4Primary] > 380 && g4Primary_Pz[nG4Primary] < 390) {EventWeight = 0.936176;}
+if(g4Primary_Pz[nG4Primary] > 390 && g4Primary_Pz[nG4Primary] < 400) {EventWeight = 0.89143;}
+if(g4Primary_Pz[nG4Primary] > 400 && g4Primary_Pz[nG4Primary] < 410) {EventWeight = 0.924021;}
+if(g4Primary_Pz[nG4Primary] > 410 && g4Primary_Pz[nG4Primary] < 420) {EventWeight = 0.869848;}
+if(g4Primary_Pz[nG4Primary] > 420 && g4Primary_Pz[nG4Primary] < 430) {EventWeight = 1.00002;}
+if(g4Primary_Pz[nG4Primary] > 430 && g4Primary_Pz[nG4Primary] < 440) {EventWeight = 0.770581;}
+if(g4Primary_Pz[nG4Primary] > 440 && g4Primary_Pz[nG4Primary] < 450) {EventWeight = 0.910378;}
+if(g4Primary_Pz[nG4Primary] > 450 && g4Primary_Pz[nG4Primary] < 460) {EventWeight = 0.624888;}
+if(g4Primary_Pz[nG4Primary] > 460 && g4Primary_Pz[nG4Primary] < 470) {EventWeight = 0.732138;}
+if(g4Primary_Pz[nG4Primary] > 470 && g4Primary_Pz[nG4Primary] < 480) {EventWeight = 0.731163;}
+if(g4Primary_Pz[nG4Primary] > 480 && g4Primary_Pz[nG4Primary] < 490) {EventWeight = 0.678436;}
+if(g4Primary_Pz[nG4Primary] > 490 && g4Primary_Pz[nG4Primary] < 500) {EventWeight = 0.629604;}
+if(g4Primary_Pz[nG4Primary] > 500 && g4Primary_Pz[nG4Primary] < 510) {EventWeight = 0.571019;}
+if(g4Primary_Pz[nG4Primary] > 510 && g4Primary_Pz[nG4Primary] < 520) {EventWeight = 0.462701;}
+if(g4Primary_Pz[nG4Primary] > 520 && g4Primary_Pz[nG4Primary] < 530) {EventWeight = 0.655837;}
+if(g4Primary_Pz[nG4Primary] > 530 && g4Primary_Pz[nG4Primary] < 540) {EventWeight = 0.626164;}
+if(g4Primary_Pz[nG4Primary] > 540 && g4Primary_Pz[nG4Primary] < 550) {EventWeight = 0.731877;}
+if(g4Primary_Pz[nG4Primary] > 550 && g4Primary_Pz[nG4Primary] < 560) {EventWeight = 0.592955;}
+if(g4Primary_Pz[nG4Primary] > 560 && g4Primary_Pz[nG4Primary] < 570) {EventWeight = 0.644736;}
+if(g4Primary_Pz[nG4Primary] > 570 && g4Primary_Pz[nG4Primary] < 580) {EventWeight = 0.77575;}
+if(g4Primary_Pz[nG4Primary] > 580 && g4Primary_Pz[nG4Primary] < 590) {EventWeight = 0.870475;}
+if(g4Primary_Pz[nG4Primary] > 590 && g4Primary_Pz[nG4Primary] < 600) {EventWeight = 0.839472;}
+if(g4Primary_Pz[nG4Primary] > 600 && g4Primary_Pz[nG4Primary] < 610) {EventWeight = 0.839125;}
+if(g4Primary_Pz[nG4Primary] > 610 && g4Primary_Pz[nG4Primary] < 620) {EventWeight = 0.784815;}
+if(g4Primary_Pz[nG4Primary] > 620 && g4Primary_Pz[nG4Primary] < 630) {EventWeight = 0.714622;}
+if(g4Primary_Pz[nG4Primary] > 630 && g4Primary_Pz[nG4Primary] < 640) {EventWeight = 0.710843;}
+if(g4Primary_Pz[nG4Primary] > 640 && g4Primary_Pz[nG4Primary] < 650) {EventWeight = 0.840885;}
+if(g4Primary_Pz[nG4Primary] > 650 && g4Primary_Pz[nG4Primary] < 660) {EventWeight = 0.643203;}
+if(g4Primary_Pz[nG4Primary] > 660 && g4Primary_Pz[nG4Primary] < 670) {EventWeight = 0.835553;}
+if(g4Primary_Pz[nG4Primary] > 670 && g4Primary_Pz[nG4Primary] < 680) {EventWeight = 0.881446;}
+if(g4Primary_Pz[nG4Primary] > 680 && g4Primary_Pz[nG4Primary] < 690) {EventWeight = 0.68384;}
+if(g4Primary_Pz[nG4Primary] > 690 && g4Primary_Pz[nG4Primary] < 700) {EventWeight = 0.703535;}
+if(g4Primary_Pz[nG4Primary] > 700 && g4Primary_Pz[nG4Primary] < 710) {EventWeight = 0.598158;}
+if(g4Primary_Pz[nG4Primary] > 710 && g4Primary_Pz[nG4Primary] < 720) {EventWeight = 0.566885;}
+if(g4Primary_Pz[nG4Primary] > 720 && g4Primary_Pz[nG4Primary] < 730) {EventWeight = 0.687499;}
+if(g4Primary_Pz[nG4Primary] > 730 && g4Primary_Pz[nG4Primary] < 740) {EventWeight = 0.603899;}
+if(g4Primary_Pz[nG4Primary] > 740 && g4Primary_Pz[nG4Primary] < 750) {EventWeight = 0.572216;}
+if(g4Primary_Pz[nG4Primary] > 750 && g4Primary_Pz[nG4Primary] < 760) {EventWeight = 0.368385;}
+if(g4Primary_Pz[nG4Primary] > 760 && g4Primary_Pz[nG4Primary] < 770) {EventWeight = 0.382572;}
+if(g4Primary_Pz[nG4Primary] > 770 && g4Primary_Pz[nG4Primary] < 780) {EventWeight = 0.529715;}
+if(g4Primary_Pz[nG4Primary] > 780 && g4Primary_Pz[nG4Primary] < 790) {EventWeight = 0.47551;}
+if(g4Primary_Pz[nG4Primary] > 790 && g4Primary_Pz[nG4Primary] < 800) {EventWeight = 0.440723;}
+if(g4Primary_Pz[nG4Primary] > 800 && g4Primary_Pz[nG4Primary] < 810) {EventWeight = 0.44711;}
+if(g4Primary_Pz[nG4Primary] > 810 && g4Primary_Pz[nG4Primary] < 820) {EventWeight = 0.459863;}
+if(g4Primary_Pz[nG4Primary] > 820 && g4Primary_Pz[nG4Primary] < 830) {EventWeight = 0.380781;}
+if(g4Primary_Pz[nG4Primary] > 830 && g4Primary_Pz[nG4Primary] < 840) {EventWeight = 0.37581;}
+if(g4Primary_Pz[nG4Primary] > 840 && g4Primary_Pz[nG4Primary] < 850) {EventWeight = 0.383345;}
+if(g4Primary_Pz[nG4Primary] > 850 && g4Primary_Pz[nG4Primary] < 860) {EventWeight = 0.24104;}
+if(g4Primary_Pz[nG4Primary] > 860 && g4Primary_Pz[nG4Primary] < 870) {EventWeight = 0.328144;}
+if(g4Primary_Pz[nG4Primary] > 870 && g4Primary_Pz[nG4Primary] < 880) {EventWeight = 0.288999;}
+if(g4Primary_Pz[nG4Primary] > 880 && g4Primary_Pz[nG4Primary] < 890) {EventWeight = 0.263563;}
+if(g4Primary_Pz[nG4Primary] > 890 && g4Primary_Pz[nG4Primary] < 900) {EventWeight = 0.288733;}
+if(g4Primary_Pz[nG4Primary] > 900 && g4Primary_Pz[nG4Primary] < 910) {EventWeight = 0.221915;}
+if(g4Primary_Pz[nG4Primary] > 910 && g4Primary_Pz[nG4Primary] < 920) {EventWeight = 0.165065;}
+if(g4Primary_Pz[nG4Primary] > 920 && g4Primary_Pz[nG4Primary] < 930) {EventWeight = 0.180034;}
+if(g4Primary_Pz[nG4Primary] > 930 && g4Primary_Pz[nG4Primary] < 940) {EventWeight = 0.157056;}
+if(g4Primary_Pz[nG4Primary] > 940 && g4Primary_Pz[nG4Primary] < 950) {EventWeight = 0.122627;}
+if(g4Primary_Pz[nG4Primary] > 950 && g4Primary_Pz[nG4Primary] < 960) {EventWeight = 0.0759867;}
+if(g4Primary_Pz[nG4Primary] > 960 && g4Primary_Pz[nG4Primary] < 970) {EventWeight = 0.124077;}
+if(g4Primary_Pz[nG4Primary] > 970 && g4Primary_Pz[nG4Primary] < 980) {EventWeight = 0.0745724;}
+if(g4Primary_Pz[nG4Primary] > 980 && g4Primary_Pz[nG4Primary] < 990) {EventWeight = 0.0915312;}
+if(g4Primary_Pz[nG4Primary] > 990 && g4Primary_Pz[nG4Primary] < 1000) {EventWeight = 0.0722496;}
+if(g4Primary_Pz[nG4Primary] > 1000 && g4Primary_Pz[nG4Primary] < 1010) {EventWeight = 0.0610081;}
+if(g4Primary_Pz[nG4Primary] > 1010 && g4Primary_Pz[nG4Primary] < 1020) {EventWeight = 0.107668;}
+if(g4Primary_Pz[nG4Primary] > 1020 && g4Primary_Pz[nG4Primary] < 1030) {EventWeight = 0.0578376;}
+if(g4Primary_Pz[nG4Primary] > 1030 && g4Primary_Pz[nG4Primary] < 1040) {EventWeight = 0.038059;}
+if(g4Primary_Pz[nG4Primary] > 1040 && g4Primary_Pz[nG4Primary] < 1050) {EventWeight = 0.0485645;}
+if(g4Primary_Pz[nG4Primary] > 1050 && g4Primary_Pz[nG4Primary] < 1060) {EventWeight = 0.0249843;}
+if(g4Primary_Pz[nG4Primary] > 1060 && g4Primary_Pz[nG4Primary] < 1070) {EventWeight = 0.0490509;}
+if(g4Primary_Pz[nG4Primary] > 1070 && g4Primary_Pz[nG4Primary] < 1080) {EventWeight = 0.0254165;}
+if(g4Primary_Pz[nG4Primary] > 1080 && g4Primary_Pz[nG4Primary] < 1090) {EventWeight = 0.0488877;}
+if(g4Primary_Pz[nG4Primary] > 1090 && g4Primary_Pz[nG4Primary] < 1100) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 1100 && g4Primary_Pz[nG4Primary] < 1110) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 1110 && g4Primary_Pz[nG4Primary] < 1120) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 1120 && g4Primary_Pz[nG4Primary] < 1130) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 1130 && g4Primary_Pz[nG4Primary] < 1140) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 1140 && g4Primary_Pz[nG4Primary] < 1150) {EventWeight = 0.037928;}
+if(g4Primary_Pz[nG4Primary] > 1150 && g4Primary_Pz[nG4Primary] < 1160) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 1160 && g4Primary_Pz[nG4Primary] < 1170) {EventWeight = 0.0123452;}
+if(g4Primary_Pz[nG4Primary] > 1170 && g4Primary_Pz[nG4Primary] < 1180) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 1180 && g4Primary_Pz[nG4Primary] < 1190) {EventWeight = 0.0128416;}
+if(g4Primary_Pz[nG4Primary] > 1190 && g4Primary_Pz[nG4Primary] < 1200) {EventWeight = 0.0110623;}
+if(g4Primary_Pz[nG4Primary] > 1200 && g4Primary_Pz[nG4Primary] < 1210) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 1210 && g4Primary_Pz[nG4Primary] < 1220) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 1220 && g4Primary_Pz[nG4Primary] < 1230) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 1230 && g4Primary_Pz[nG4Primary] < 1240) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 1240 && g4Primary_Pz[nG4Primary] < 1250) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 1250 && g4Primary_Pz[nG4Primary] < 1260) {EventWeight = 0.0112143;}
+if(g4Primary_Pz[nG4Primary] > 1260 && g4Primary_Pz[nG4Primary] < 1270) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 1270 && g4Primary_Pz[nG4Primary] < 1280) {EventWeight = 0.0259554;}
+if(g4Primary_Pz[nG4Primary] > 1280 && g4Primary_Pz[nG4Primary] < 1290) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 1290 && g4Primary_Pz[nG4Primary] < 1300) {EventWeight = 0.011353;}
+if(g4Primary_Pz[nG4Primary] > 1300 && g4Primary_Pz[nG4Primary] < 1310) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 1310 && g4Primary_Pz[nG4Primary] < 1320) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 1320 && g4Primary_Pz[nG4Primary] < 1330) {EventWeight = 0.0255491;}
+if(g4Primary_Pz[nG4Primary] > 1330 && g4Primary_Pz[nG4Primary] < 1340) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 1340 && g4Primary_Pz[nG4Primary] < 1350) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 1350 && g4Primary_Pz[nG4Primary] < 1360) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 1360 && g4Primary_Pz[nG4Primary] < 1370) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 1370 && g4Primary_Pz[nG4Primary] < 1380) {EventWeight = 0.0258186;}
+if(g4Primary_Pz[nG4Primary] > 1380 && g4Primary_Pz[nG4Primary] < 1390) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 1390 && g4Primary_Pz[nG4Primary] < 1400) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 1400 && g4Primary_Pz[nG4Primary] < 1410) {EventWeight = 0.0114414;}
+if(g4Primary_Pz[nG4Primary] > 1410 && g4Primary_Pz[nG4Primary] < 1420) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 1420 && g4Primary_Pz[nG4Primary] < 1430) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 1430 && g4Primary_Pz[nG4Primary] < 1440) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 1440 && g4Primary_Pz[nG4Primary] < 1450) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 1450 && g4Primary_Pz[nG4Primary] < 1460) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 1460 && g4Primary_Pz[nG4Primary] < 1470) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 1470 && g4Primary_Pz[nG4Primary] < 1480) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 1480 && g4Primary_Pz[nG4Primary] < 1490) {EventWeight = 0.0117526;}
+if(g4Primary_Pz[nG4Primary] > 1490 && g4Primary_Pz[nG4Primary] < 1500) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 1500 && g4Primary_Pz[nG4Primary] < 1510) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 1510 && g4Primary_Pz[nG4Primary] < 1520) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 1520 && g4Primary_Pz[nG4Primary] < 1530) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 1530 && g4Primary_Pz[nG4Primary] < 1540) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 1540 && g4Primary_Pz[nG4Primary] < 1550) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 1550 && g4Primary_Pz[nG4Primary] < 1560) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 1560 && g4Primary_Pz[nG4Primary] < 1570) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 1570 && g4Primary_Pz[nG4Primary] < 1580) {EventWeight = 0.0124921;}
+if(g4Primary_Pz[nG4Primary] > 1580 && g4Primary_Pz[nG4Primary] < 1590) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 1590 && g4Primary_Pz[nG4Primary] < 1600) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 1600 && g4Primary_Pz[nG4Primary] < 1610) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 1610 && g4Primary_Pz[nG4Primary] < 1620) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 1620 && g4Primary_Pz[nG4Primary] < 1630) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 1630 && g4Primary_Pz[nG4Primary] < 1640) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 1640 && g4Primary_Pz[nG4Primary] < 1650) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 1650 && g4Primary_Pz[nG4Primary] < 1660) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 1660 && g4Primary_Pz[nG4Primary] < 1670) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 1670 && g4Primary_Pz[nG4Primary] < 1680) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 1680 && g4Primary_Pz[nG4Primary] < 1690) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 1690 && g4Primary_Pz[nG4Primary] < 1700) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 1700 && g4Primary_Pz[nG4Primary] < 1710) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 1710 && g4Primary_Pz[nG4Primary] < 1720) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 1720 && g4Primary_Pz[nG4Primary] < 1730) {EventWeight = 0.0121814;}
+if(g4Primary_Pz[nG4Primary] > 1730 && g4Primary_Pz[nG4Primary] < 1740) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 1740 && g4Primary_Pz[nG4Primary] < 1750) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 1750 && g4Primary_Pz[nG4Primary] < 1760) {EventWeight = 0.0121814;}
+if(g4Primary_Pz[nG4Primary] > 1760 && g4Primary_Pz[nG4Primary] < 1770) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 1770 && g4Primary_Pz[nG4Primary] < 1780) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 1780 && g4Primary_Pz[nG4Primary] < 1790) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 1790 && g4Primary_Pz[nG4Primary] < 1800) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 1800 && g4Primary_Pz[nG4Primary] < 1810) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 1810 && g4Primary_Pz[nG4Primary] < 1820) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 1820 && g4Primary_Pz[nG4Primary] < 1830) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 1830 && g4Primary_Pz[nG4Primary] < 1840) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 1840 && g4Primary_Pz[nG4Primary] < 1850) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 1850 && g4Primary_Pz[nG4Primary] < 1860) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 1860 && g4Primary_Pz[nG4Primary] < 1870) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 1870 && g4Primary_Pz[nG4Primary] < 1880) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 1880 && g4Primary_Pz[nG4Primary] < 1890) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 1890 && g4Primary_Pz[nG4Primary] < 1900) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 1900 && g4Primary_Pz[nG4Primary] < 1910) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 1910 && g4Primary_Pz[nG4Primary] < 1920) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 1920 && g4Primary_Pz[nG4Primary] < 1930) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 1930 && g4Primary_Pz[nG4Primary] < 1940) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 1940 && g4Primary_Pz[nG4Primary] < 1950) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 1950 && g4Primary_Pz[nG4Primary] < 1960) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 1960 && g4Primary_Pz[nG4Primary] < 1970) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 1970 && g4Primary_Pz[nG4Primary] < 1980) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 1980 && g4Primary_Pz[nG4Primary] < 1990) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 1990 && g4Primary_Pz[nG4Primary] < 2000) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 2000 && g4Primary_Pz[nG4Primary] < 2010) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 2010 && g4Primary_Pz[nG4Primary] < 2020) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 2020 && g4Primary_Pz[nG4Primary] < 2030) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 2030 && g4Primary_Pz[nG4Primary] < 2040) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 2040 && g4Primary_Pz[nG4Primary] < 2050) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 2050 && g4Primary_Pz[nG4Primary] < 2060) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 2060 && g4Primary_Pz[nG4Primary] < 2070) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 2070 && g4Primary_Pz[nG4Primary] < 2080) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 2080 && g4Primary_Pz[nG4Primary] < 2090) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 2090 && g4Primary_Pz[nG4Primary] < 2100) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 2100 && g4Primary_Pz[nG4Primary] < 2110) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 2110 && g4Primary_Pz[nG4Primary] < 2120) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 2120 && g4Primary_Pz[nG4Primary] < 2130) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 2130 && g4Primary_Pz[nG4Primary] < 2140) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 2140 && g4Primary_Pz[nG4Primary] < 2150) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 2150 && g4Primary_Pz[nG4Primary] < 2160) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 2160 && g4Primary_Pz[nG4Primary] < 2170) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 2170 && g4Primary_Pz[nG4Primary] < 2180) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 2180 && g4Primary_Pz[nG4Primary] < 2190) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 2190 && g4Primary_Pz[nG4Primary] < 2200) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 2200 && g4Primary_Pz[nG4Primary] < 2210) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 2210 && g4Primary_Pz[nG4Primary] < 2220) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 2220 && g4Primary_Pz[nG4Primary] < 2230) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 2230 && g4Primary_Pz[nG4Primary] < 2240) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 2240 && g4Primary_Pz[nG4Primary] < 2250) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 2250 && g4Primary_Pz[nG4Primary] < 2260) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 2260 && g4Primary_Pz[nG4Primary] < 2270) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 2270 && g4Primary_Pz[nG4Primary] < 2280) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 2280 && g4Primary_Pz[nG4Primary] < 2290) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 2290 && g4Primary_Pz[nG4Primary] < 2300) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 2300 && g4Primary_Pz[nG4Primary] < 2310) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 2310 && g4Primary_Pz[nG4Primary] < 2320) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 2320 && g4Primary_Pz[nG4Primary] < 2330) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 2330 && g4Primary_Pz[nG4Primary] < 2340) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 2340 && g4Primary_Pz[nG4Primary] < 2350) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 2350 && g4Primary_Pz[nG4Primary] < 2360) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 2360 && g4Primary_Pz[nG4Primary] < 2370) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 2370 && g4Primary_Pz[nG4Primary] < 2380) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 2380 && g4Primary_Pz[nG4Primary] < 2390) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 2390 && g4Primary_Pz[nG4Primary] < 2400) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 2400 && g4Primary_Pz[nG4Primary] < 2410) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 2410 && g4Primary_Pz[nG4Primary] < 2420) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 2420 && g4Primary_Pz[nG4Primary] < 2430) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 2430 && g4Primary_Pz[nG4Primary] < 2440) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 2440 && g4Primary_Pz[nG4Primary] < 2450) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 2450 && g4Primary_Pz[nG4Primary] < 2460) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 2460 && g4Primary_Pz[nG4Primary] < 2470) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 2470 && g4Primary_Pz[nG4Primary] < 2480) {EventWeight = 0;}
+if(g4Primary_Pz[nG4Primary] > 2480 && g4Primary_Pz[nG4Primary] < 2490) {EventWeight = 0;}
 		}//<---End Scaling based on Momentum
 	       
 	    
@@ -985,6 +1076,35 @@ for (Long64_t jentry=0; jentry<nentries;jentry++)
     // ### Counting the event if it passes ###
     nLowZTrkEvents++;
 
+
+
+   // ===========================================================================================================================================
+   // 						Vetoing Shower Like Events 
+   // ===========================================================================================================================================   
+   
+   int nShortTrks = 0;
+   // ###############################
+   // ### Looping over TPC tracks ###
+   // ###############################
+   for(int nTPCtrk = 0; nTPCtrk < ntracks_reco; nTPCtrk++)
+      {
+      
+      // ### If the track is shorter than our cut ###
+      if(trklength[nTPCtrk] < ShortTkLength)
+         {
+	 nShortTrks++;
+	 
+	 }
+	 
+      }//<---End nTPCtrk
+   
+   // ### Skipping the event if there are too many short tracks ###
+   if(nShortTrks > nShortTracksAllowed){continue;}
+   
+   // ### Bumping the counter ###
+   nNonShowerEvents++;
+
+
    //=======================================================================================================================
    //						Uniquely matching one WC Track (For MC) to TPC Track
    //=======================================================================================================================
@@ -1221,36 +1341,6 @@ for (Long64_t jentry=0; jentry<nentries;jentry++)
    nEvtsWCTrackMatch++;
 
 
-
-
-
-
-
-   // ===========================================================================================================================================
-   // 						Vetoing Shower Like Events 
-   // ===========================================================================================================================================   
-   
-   int nShortTrks = 0;
-   // ###############################
-   // ### Looping over TPC tracks ###
-   // ###############################
-   for(int nTPCtrk = 0; nTPCtrk < ntracks_reco; nTPCtrk++)
-      {
-      
-      // ### If the track is shorter than our cut ###
-      if(trklength[nTPCtrk] < ShortTkLength)
-         {
-	 nShortTrks++;
-	 
-	 }
-	 
-      }//<---End nTPCtrk
-   
-   // ### Skipping the event if there are too many short tracks ###
-   if(nShortTrks > nShortTracksAllowed){continue;}
-   
-   // ### Bumping the counter ###
-   nNonShowerEvents++;
 
 
    // =========================================================================================================================================
@@ -1726,10 +1816,10 @@ std::cout<<"-------------------------------   Stage 2   ------------------------
 std::cout<<"### Number of Events w/ Primary MC which enters the TPC                   = "<<nEvtsGoodMC<<" ###"<<std::endl;
 std::cout<<"### Number of Events w/ Trk Z < "<<FirstSpacePointZPos<<"                                = "<<nEvtsTrackZPos<<" ###"<<std::endl;
 std::cout<<"### Number of Events w/ < "<<nLowZTracksAllowed<<" tracks in the first "<<UpperPartOfTPC<<" cm of the TPC = "<<nLowZTrkEvents<<" ###"<<std::endl;
+std::cout<<"### Number of Events that are not Shower Like                        = "<<nNonShowerEvents<<std::endl;
 std::cout<<"### Number of Events w/ ONE WC Track Matched                     = "<<nEvtsWCTrackMatch<<" ###"<<std::endl;
 std::cout<<"###              ( "<<DeltaXLowerBound<<" < Delta X < "<<DeltaXUpperBound<<" , "<<DeltaYLowerBound<<" < Delta Y < "<<DeltaYUpperBound<<" )              ###"<<std::endl;
 std::cout<<"###                 and alpha less the "<<alphaCut<<" degrees                      ###"<<std::endl;
-std::cout<<"### Number of Events that are not Shower Like                        = "<<nNonShowerEvents<<std::endl;
 std::cout<<"########################################################################"<<std::endl;
 std::cout<<std::endl;   
    

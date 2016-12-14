@@ -3,15 +3,22 @@
 // #######################
 // ### Load Data Plots ###
 // #######################
-//TFile *f1 = new TFile("./histo_ROOTFILES/Data_PionXSection_histos_noCorrections.root");
-TFile *f1 = new TFile("./histo_ROOTFILES/DataNew_NewTOF_NewMatch_PionXSection_histos_noCorrections.root");
+TFile *f1 = new TFile("./Histos/DataNew_NewTOF_NewMatch_PionXSection_histos_noCorrections.root");
 
 
 // ###################################
 // ### Load Pion Monte Carlo Plots ###
 // ###################################
-//TFile *f2 = new TFile("./histo_ROOTFILES/PionMC_NewMatch_noCorrections_wScalings.root");
-TFile *f2 = new TFile("./histo_ROOTFILES/PionMC_PionXSection_histos_noCorrections_noScalings.root");
+TFile *f2 = new TFile("./Histos/PionMC_NewMatch_noCorrections_noScalings.root");
+
+
+
+
+// ### Scaling the highest count bin in data (420-430) ###
+// ### Data bin count 84
+// ### MC bin count 617
+// ### MC/Data Scale overall scale factor 0.13614
+
 
 
 
@@ -57,8 +64,6 @@ TH1F *hMCWCTrackMomentum = (TH1F*)f2->Get("hMCPrimaryPz");
 hMCWCTrackMomentum->SetLineColor(kBlue);
 hMCWCTrackMomentum->SetLineStyle(0);
 hMCWCTrackMomentum->SetLineWidth(3);
-hMCWCTrackMomentum->SetFillColor(kBlue);
-hMCWCTrackMomentum->SetFillStyle(3002);
 
 // ### Labeling the axis ###
 hMCWCTrackMomentum->GetXaxis()->SetTitle("WC Track Momentum (MeV)");
@@ -75,13 +80,66 @@ double DataIntegral = hdataWCTrackMomentum->Integral();
 double scaleMC = DataIntegral/MCIntegral;
 
 hMCWCTrackMomentum->Sumw2();
-hMCWCTrackMomentum->Scale(scaleMC);
+hMCWCTrackMomentum->Scale(0.13614);
 
 hMCWCTrackMomentum->Draw("histo");
 hdataWCTrackMomentum->Draw("E1same");
 
 //hdataWCTrackMomentum->Draw("E1");
 
+
+
+
+// ### Find the ratio bin by bin ###
+TH1D *Ratio = new TH1D("Ratio", "P_{z}", 250, 0 , 2500);
+
+// ### Data / MC
+Ratio->Divide(hdataWCTrackMomentum,hMCWCTrackMomentum);
+
+// ### Read out each bins scale factor ###
+for(int nbins = 1; nbins < Ratio.GetNbinsX(); nbins++)
+   {
+   //std::cout<<"nbins = "<<Ratio.GetBinContent(nbins)<<std::endl;
+   
+   std::cout<<"if(g4Primary_Pz[nG4Primary] > "<<(nbins - 1)*10<<" && g4Primary_Pz[nG4Primary] < "<<nbins*10<<") {EventWeight = "<<Ratio.GetBinContent(nbins)<<";}"<<std::endl;
+   
+   }//<---End Nbins
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
 //--------------------------------------------------------------------------------------------------------------
 //						Beam Profile Plots (New) Data - MC / Data
 //--------------------------------------------------------------------------------------------------------------
@@ -107,7 +165,14 @@ TH1D *Difference = new TH1D("Difference", "P_{z}", 250, 0 , 2500);
 Difference->Add(hdataWCTrackMomentum, Sub1);
 Difference->Sumw2();
 
-Ratio->Divide(Difference,hdataWCTrackMomentum);
+
+
+for(int nbins = 1; nbins < Ratio.GetNbinsX(); nbins++)
+   {
+   std::cout<<"nbins = "<<Ratio.GetBinContent(nbins)<<std::endl;
+   
+   
+   }//<---End Nbins
 
 // ### Labeling the axis ###
 Ratio->GetXaxis()->SetTitle("WC-Track Momentum (MeV)");
@@ -470,6 +535,6 @@ hMCTPCYi->Sumw2();
 hMCTPCYi->Scale(scaleMCYi);
 
 hdataTPCYi->Draw("E1");
-hMCTPCYi->Draw("histosame");
+hMCTPCYi->Draw("histosame");*/
 
 }//<---End File

@@ -145,10 +145,10 @@ double UpperTOFGoodReco = 90;
 // ###     the TOF range for good particle ID      ###
 // ###################################################
 double LowerWCTrkMomentum = 100.0; //<--(MeV)
-double HighWCTrkMomentum  = 1500.0;//<--(MeV)
+double HighWCTrkMomentum  = 2000.0;//<--(MeV)
 
 double LowerTOF = 10.0; //<--(ns)
-double HighTOF  = 25.0; //<--(ns)
+double HighTOF  = 30.0; //<--(ns)
 
 // #####################################################
 // ### Number of centimeters in Z we require a track ###
@@ -160,14 +160,14 @@ double FirstSpacePointZPos = 2.0;
 // ########################################################
 // ### Delta X Between Wire Chamber Track and TPC Track ###
 // ########################################################
-double DeltaXLowerBound = -2.0;
+double DeltaXLowerBound = -4.0;
 double DeltaXUpperBound = 6.0;
 
 // ########################################################
 // ### Delta Y Between Wire Chamber Track and TPC Track ###
 // ########################################################
-double DeltaYLowerBound = -3.0;
-double DeltaYUpperBound = 6.0;
+double DeltaYLowerBound = -5.0;
+double DeltaYUpperBound = 5.0;
 
 
 // ########################################################################
@@ -262,7 +262,7 @@ bool RemoveStopping = false;
 // ###############################################
 // ### Creating a file to output my histograms ###
 // ###############################################
-TFile myfile("DataNew_PionXSection_histos_noCorrections.root","RECREATE");
+TFile myfile("DataNew_NewTOF_NewMatch_PionXSection_histos_noCorrections.root","RECREATE");
 //TFile myfile("DataNew_PionXSection_histos_reorderingOnly.root","RECREATE");
 //TFile myfile("DataNew_PionXSection_histos_reordering_FixExtremeFluctuation.root","RECREATE");
 //TFile myfile("DataNew_PionXSection_histos_reordering_FixExtremeAndSmallFluctuation.root","RECREATE");
@@ -369,6 +369,7 @@ for (Long64_t jentry=0; jentry<nentries;jentry++)
       
       hdataTOFNoCuts->Fill(tofObject[mmtof]);
       
+     
       
       
       
@@ -393,6 +394,7 @@ for (Long64_t jentry=0; jentry<nentries;jentry++)
    // ======================================================================================================================
    
    bool GoodPID = false;
+   bool newEvents = false;
        
    // ### Loop over the WCTracks and TOF Objects ###
    for (int numWCTrk = 0; numWCTrk < nwctrks; numWCTrk++)
@@ -409,6 +411,11 @@ for (Long64_t jentry=0; jentry<nentries;jentry++)
          tofObject[TOFObject] > LowerTOF && tofObject[TOFObject] < HighTOF)
          {GoodPID = true;}
       
+      if(tofObject[TOFObject] > 25  || wctrk_momentum[numWCTrk] > 2000)
+         {
+	 newEvents = true;
+	 
+	 }
       
       }//<---end numWCTrk
    if(!GoodPID){continue;}
@@ -777,7 +784,8 @@ for (Long64_t jentry=0; jentry<nentries;jentry++)
    nEvtsWCTrackMatch++;
    
    
-
+   
+   if(newEvents){std::cout<<"Run = "<<run<<" Subrun = "<<subrun<<", Event = "<<event<<std::endl;}
 
 
    // =========================================================================================================================================

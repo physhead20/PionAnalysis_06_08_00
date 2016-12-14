@@ -9,36 +9,36 @@
 // ### Load Data Plots ###
 // #######################
 //TFile *f1 = new TFile("./histo_ROOTFILES/Data_PionXSection_histos_noCorrections.root");
-TFile *f1 = new TFile("./histo_ROOTFILES/DataNew_PionXSection_histos_noCorrections.root");
+TFile *f1 = new TFile("./histo_ROOTFILES/DataNew_NewTOF_NewMatch_PionXSection_histos_noCorrections.root");
 
 
 // ###################################
 // ### Load Pion Monte Carlo Plots ###
 // ###################################
-TFile *f2 = new TFile("./histo_ROOTFILES/PionMC_PionXSection_histos_noCorrections_wScalings.root");
+TFile *f2 = new TFile("./histo_ROOTFILES/PionMC_NewMatch_noCorrections_wScalings.root");
 //TFile *f2 = new TFile("./histo_ROOTFILES/PionMC_PionXSection_histos_noCorrections_noScalings.root");
 
 // ###################################
 // ### Load Muon Monte Carlo Plots ###
 // ###################################
 //TFile *f3 = new TFile("./histo_ROOTFILES/MuonMC_PionXSection_histos_noCorrections_noScalings.root");
-TFile *f3 = new TFile("./histo_ROOTFILES/MuonMC_PionXSection_histos_noCorrections_wScalings.root");
+TFile *f3 = new TFile("./histo_ROOTFILES/MuonMC_NewMatch_noCorrections_wScalings.root");
 
 // ###################################
 // ### Load Muon Monte Carlo Plots ###
 // ###################################
 //TFile *f4 = new TFile("./histo_ROOTFILES/ElectronMC_PionXSection_histos_noCorrections_noScalings.root");
-TFile *f4 = new TFile("./histo_ROOTFILES/ElectronMC_PionXSection_histos_noCorrections_wScalings.root");
+TFile *f4 = new TFile("./histo_ROOTFILES/ElectronMC_NewMatch_noCorrections_wScalings.root");
 
 // ###################################
 // ### Load Kaon Monte Carlo Plots ###
 // ###################################
-TFile *f5 = new TFile("./histo_ROOTFILES/KaonMC_PionXSection_histos_noCorrections_wScalings.root");
+TFile *f5 = new TFile("./histo_ROOTFILES/KaonMC_NewMatch_noCorrections_wScalings.root");
 
 // #####################################
 // ### Load Photon Monte Carlo Plots ###
 // #####################################
-TFile *f6 = new TFile("./histo_ROOTFILES/PhotonMC_PionXSection_histos_noCorrections_wScalings.root");
+TFile *f6 = new TFile("./histo_ROOTFILES/PhotonMC_NewMatch_noCorrections_wScalings.root");
 
 
 //--------------------------------------------------------------------------------------------------------------
@@ -156,8 +156,8 @@ double scaleMCIncKE = DataIntegralTrkLength/MCIntegralTrkLength;
 double PionPercentage     = 0.25399;
 double MuonPercentage     = 12.745;
 double ElectronPercentage = 0.59864;
-double PhotonPercentage   = 0.93574;//0.085;
-double KaonPercentage     = 181.425;//0.0035;
+double PhotonPercentage   = 0.93574;
+double KaonPercentage     = 181.425;
 
 
 // ### Scale each particle species ###
