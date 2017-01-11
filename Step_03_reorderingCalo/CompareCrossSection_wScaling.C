@@ -18,13 +18,13 @@ float slab_width = 0.0045;//in m (from mean of track pitch)
 // ====================================
 // === Monte Carlo with no scalings ===
 // ====================================
-TFile *f1 = new TFile("./histo_ROOTFILES/Data_PionXSection_histos_noCorrections.root");
+TFile *f1 = new TFile("./histo_ROOTFILES/DataNew_PionXSection_histos_reorderingOnly.root");
 
 
 // ===============================================
 // === Monte Carlo with beam spectrum scalings ===
 // ===============================================
-TFile *f2 = new TFile("./histo_ROOTFILES/Data_PionXSection_histos_reorderingOnly.root");
+TFile *f2 = new TFile("./histo_ROOTFILES/PionMC_NewMatch_wScalings_dEdXScale_Reordering.root");
 
 
 TH1F* MCCrossSectionNoScaling = (TH1F*)f1->Get("fCrossSection");

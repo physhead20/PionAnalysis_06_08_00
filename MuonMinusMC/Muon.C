@@ -287,7 +287,7 @@ float ScaleFactor = 1.0909;
 // ### True  = Use the fix                            ###
 // ### False = Don't use the fix                      ###
 // ######################################################
-bool FixCaloIssue_Reordering = false; 
+bool FixCaloIssue_Reordering = true; 
 
 
 // ######################################################
@@ -297,7 +297,7 @@ bool FixCaloIssue_Reordering = false;
 // ### True  = Use the fix                            ###
 // ### False = Don't use the fix                      ###
 // ######################################################
-bool FixCaloIssue_ExtremeFluctuation = false;     
+bool FixCaloIssue_ExtremeFluctuation = true;     
 
 // ########################################################
 // ###   Choose whether or not to fix the calo problems ###
@@ -306,7 +306,7 @@ bool FixCaloIssue_ExtremeFluctuation = false;
 // ### True  = Use the fix                              ###
 // ### False = Don't use the fix                        ###
 // ########################################################
-bool FixCaloIssue_LessExtremeFluctuation = false;  
+bool FixCaloIssue_LessExtremeFluctuation = true;  
 
 
 // ##########################################################
@@ -315,7 +315,7 @@ bool FixCaloIssue_LessExtremeFluctuation = false;
 // ### True  = Remove stoppping tagged tracks             ###
 // ### False = Don't remove stopping tagged tracks        ###
 // ##########################################################
-bool RemoveStopping = false;
+bool RemoveStopping = true;
    
 
 
@@ -331,14 +331,9 @@ bool VERBOSE = false;
 // ###############################################
 //TFile myfile("MuonMC_NewMatch_noCorrections_noScalings.root","RECREATE");
 //TFile myfile("MuonMC_NewMatch_noCorrections_wScalings.root","RECREATE");
-TFile myfile("MuonMC_NewMatch_wScalings_dEdXScale.root","RECREATE");
+//TFile myfile("MuonMC_NewMatch_wScalings_dEdXScale.root","RECREATE");
 //TFile myfile("MuonMC_NewMatch_wScalings_dEdXScale_Reordering.root","RECREATE");
-//TFile myfile("MuonMC_NewMatch_wScalings_dEdXScale_Reordering_FixExtremeFluctuation.root","RECREATE");
-//TFile myfile("PionMC_PionXSection_histos_noCorrections_PzScaling_newEnergyLoss_reorderingOnly.root","RECREATE");
-//TFile myfile("PionMC_PionXSection_histos_noCorrections_PzScaling_newEnergyLoss_FixExtremeFluctuation.root","RECREATE");
-//TFile myfile("PionMC_PionXSection_histos_KEWeight_reordering_FixExtremeAndSmallFluctuation.root","RECREATE");
-//TFile myfile("PionMC_PionXSection_histos_KEWeight_reordering_FixExtremeAndSmallFluctuation_RemoveStopping.root","RECREATE");
-    
+TFile myfile("MuonMC_NewMatch_wScalings_dEdXScale_Reordering_FixExtremeAndSmallFluctuation_RemoveStop.root","RECREATE");
 
 // ----------------------------------------------------------------
 // Create the cross section from the incident and interaction plots
@@ -1422,48 +1417,6 @@ if(g4Primary_Pz[nG4Primary] > 2480 && g4Primary_Pz[nG4Primary] < 2490) {EventWei
          trkendy[nTPCtrk] < -19 || trkendz[nTPCtrk] > 89.0)
          {ThroughGoingTrack[nTPCtrk] = true;}
       
-      // #####################################################
-      // ### Check to see if this track is consistent with ###
-      // ###          being from a stopping track 	   ###
-      // #####################################################
-      if(InitialKinEnAtTPC < 300)
-         {
-	 // ### Filling the  tracks PIDA value ###
-	 hdataLowMomentumTrkPIDA->Fill(trkpida[nTPCtrk][1]);
-	 
-	 // ##########################################
-	 // ###  If the PIDA is between 9 and 13   ###
-	 // ##########################################
-	 if(trkpida[nTPCtrk][1] >= 9 && trkpida[nTPCtrk][1] <= 13)
-	    {
-	    
-	    //### Setting the last energy points variable ###
-	    double lastDeltaE = 0;
-	    
-	    // ### Loop over the last five points of the track ###
-	    if(ntrkhits[nTPCtrk] >= 5)
-	       {
-	       for(int nlastspts = ntrkhits[nTPCtrk] - 1; nlastspts > ntrkhits[nTPCtrk] - 5; nlastspts--)
-	          {
-		  // ### Add up the energy in the last 5 points ###
-		  lastDeltaE += (trkpitchhit[nTPCtrk][1][nlastspts] * trkdedx[nTPCtrk][1][nlastspts]);
-
-	          }//<---End nlastspts loop
-
-	       }//<---End only looking if the track has 5 points
-	    
-	    // ### IF the Delta E is between 7 and 25, tag as a stopping track ###
-	    if(lastDeltaE >= 7 && lastDeltaE <= 25)
-	       // ### Only setting the flag if we are tagging events ###
-	       {
-	       if(RemoveStopping)
-	          {StoppingParticle[nTPCtrk] = true;}
-	       
-	       }
-	    
-	    
-	    }//<---End looking at 9 < PIDA < 13
-	 }//<---End looking at low momentum tracks
       
       
       // ###############################################################
@@ -1510,6 +1463,49 @@ if(g4Primary_Pz[nG4Primary] > 2480 && g4Primary_Pz[nG4Primary] < 2490) {EventWei
 	 nPionSpts++;
 	 
 	 }//<---End spacepoints loop
+      
+      // #####################################################
+      // ### Check to see if this track is consistent with ###
+      // ###          being from a stopping track 	   ###
+      // #####################################################
+      if(InitialKinEnAtTPC < 300)
+         {
+	 // ### Filling the  tracks PIDA value ###
+	 hdataLowMomentumTrkPIDA->Fill(trkpida[nTPCtrk][1]);
+	 
+	 // ##########################################
+	 // ###  If the PIDA is between 9 and 13   ###
+	 // ##########################################
+	 if(trkpida[nTPCtrk][1] >= 8 && trkpida[nTPCtrk][1] <= 13)
+	    {
+	    
+	    //### Setting the last energy points variable ###
+	    double lastDeltaE = 0;
+	    
+	    // ### Loop over the last five points of the track ###
+	    if(nPionSpts >= 5)
+	       {
+	       for(int nlastspts = nPionSpts - 1; nlastspts > nPionSpts - 5; nlastspts--)
+	          {
+		  // ### Add up the energy in the last 5 points ###
+		  lastDeltaE += (Pionpitchhit[nlastspts] * Piondedx[nlastspts]);
+
+	          }//<---End nlastspts loop
+
+	       }//<---End only looking if the track has 5 points
+	    
+	    // ### IF the Delta E is between 7 and 25, tag as a stopping track ###
+	    if(lastDeltaE >= 10 && lastDeltaE <= 30)
+	       {
+	       // ### Only setting the flag if we are tagging events ###
+	       if(RemoveStopping)
+	          {StoppingParticle[nTPCtrk] = true;}
+	       
+	       }
+	    
+	    
+	    }//<---End looking at 9 < PIDA < 13
+	 }//<---End looking at low momentum tracks
       
       
       }//<---End nTPCtrk loop 

@@ -4,6 +4,7 @@ PiMinusMC/*.so
 PiMinusMC/*.d
 Data/*.so
 Data/*.d
+Data/*.gif
 KaonMinusMC/*.so
 KaonMinusMC/*.d
 MuonMinusMC/*.so
@@ -12,3 +13,4 @@ ElectronMinusMC/*.so
 ElectronMinusMC/*.d
 PhotonMC/*.so
 PhotonMC/*.d
+Step_01_NoCorrections/*.root

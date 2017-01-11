@@ -1,5 +1,5 @@
-#define Pion_cxx
-#include "Pion.h"
+#define ProtonMC_cxx
+#include "ProtonMC.h"
 #include <TH2.h>
 #include <TStyle.h>
 #include <TCanvas.h>
@@ -111,8 +111,14 @@ TH1D *hdataInitialKEMomentumUnWeighted = new TH1D("hdataInitialKEMomentumUnWeigh
 /////////////////////////////////// "Matched Track" dE/dX /////////////////////////////////////////////////////
 TH1D *hdataPiondEdX = new TH1D("hdataPiondEdX", "Matched Track dE/dX", 200, 0, 50);
 
+/////////////////////////////////// "Matched Track" dE/dX /////////////////////////////////////////////////////
+TH1D *hdataPiondQdX = new TH1D("hdataPiondQdX", "Matched Track dQ/dX", 1700, 3000, 20000);
+
 /////////////////////////////////// "Matched Track" dE/dX (Fixed) /////////////////////////////////////////////////////
 TH1D *hdataPiondEdXFixed = new TH1D("hdataPiondEdXFixed", "Matched Track dE/dX", 200, 0, 50);
+
+/////////////////////////////////// "Matched Track" dQ/dX (Fixed) /////////////////////////////////////////////////////
+TH1D *hdataPiondQdXFixed = new TH1D("hdataPiondQdXFixed", "Matched Track dQ/dX", 1700, 3000, 20000);
 
 /////////////////////////////////// "Matched Track" Residual Range //////////////////////////////////////////
 TH1D *hdataPionRR = new TH1D("hdataPionRR", "Matched Track Residual Range", 400, -100, 100);
@@ -178,8 +184,7 @@ TH1D *hdataInteractingKEunweighted = new TH1D("hdataInteractingKEunweighted", "I
 /////////////////////////////////// Cross-Section ////////////////////////////////////////////////////////////////////////////
 TH1F *fCrossSection = new TH1F("fCrossSection", "Cross-Section", 40, 0, 2000);
 
-
-void Pion::Loop()
+void ProtonMC::Loop()
 {
 if (fChain == 0) return;
 Long64_t nentries = fChain->GetEntriesFast();
@@ -195,7 +200,7 @@ Long64_t nbytes = 0, nb = 0;
 // ###    which is used when calculating the energy loss before  ###
 // ###                       entering the TPC                    ###
 
-float particle_mass = 139.57; //<---Mass of Pion in MeV
+float particle_mass = 938.28; //<---Mass of Pion in MeV
 
 
 // ##########################################################
@@ -290,7 +295,7 @@ bool ScaleByKE = false;
 // ### True = apply scale factor     ###
 // ### False = don't apply scaling   ###
 // #####################################
-bool ScaledEdX = true;
+bool ScaledEdX = false;
 
 float ScaleFactor = 1.0909;
 
@@ -312,7 +317,7 @@ bool FixCaloIssue_Reordering = true;
 // ### True  = Use the fix                            ###
 // ### False = Don't use the fix                      ###
 // ######################################################
-bool FixCaloIssue_ExtremeFluctuation = true;     
+bool FixCaloIssue_ExtremeFluctuation = false;     
 
 // ########################################################
 // ###   Choose whether or not to fix the calo problems ###
@@ -321,7 +326,7 @@ bool FixCaloIssue_ExtremeFluctuation = true;
 // ### True  = Use the fix                              ###
 // ### False = Don't use the fix                        ###
 // ########################################################
-bool FixCaloIssue_LessExtremeFluctuation = true;  
+bool FixCaloIssue_LessExtremeFluctuation = false;  
 
 
 // ##########################################################
@@ -330,7 +335,7 @@ bool FixCaloIssue_LessExtremeFluctuation = true;
 // ### True  = Remove stoppping tagged tracks             ###
 // ### False = Don't remove stopping tagged tracks        ###
 // ##########################################################
-bool RemoveStopping = true;
+bool RemoveStopping = false;
    
 
 
@@ -350,7 +355,7 @@ bool VERBOSE = false;
 //TFile myfile("PionMC_NewMatch_wScalings_dEdXScale_Reordering.root","RECREATE");
 //TFile myfile("PionMC_NewMatch_wScalings_dEdXScale_Reordering_FixExtremeFluctuation.root","RECREATE");
 //TFile myfile("PionMC_NewMatch_wScalings_dEdXScale_Reordering_FixExtremeAndSmallFluctuation.root","RECREATE");
-TFile myfile("PionMC_NewMatch_wScalings_dEdXScale_Reordering_FixExtremeAndSmallFluctuation_RemoveStopping.root","RECREATE");
+TFile myfile("ProtonMC_NewMatch_wScalings_dEdXScale_Reordering_FixExtremeAndSmallFluctuation_RemoveStopping.root","RECREATE");
     
 
 // ----------------------------------------------------------------
@@ -361,7 +366,7 @@ TFile myfile("PionMC_NewMatch_wScalings_dEdXScale_Reordering_FixExtremeAndSmallF
 float entryTPCEnergyLoss = 80.; //MeV
 
 // ### The assumed mass of the incident particle (here we assume a pion) ###
-float mass = 139.57;
+float mass = 938.28;
 
 float rho = 1396; //kg/m^3
 //  float cm_per_m = 100;
@@ -905,7 +910,19 @@ if(g4Primary_Pz[nG4Primary] > 2480 && g4Primary_Pz[nG4Primary] < 2490) {EventWei
 	 }//<---End matching daughters
       
       }//<---end iG4 loop
+      
+   //std::cout<<"g4PrimaryProcess[nG4Primary - 1] = "<<g4PrimaryProcess[nG4Primary - 1]<<std::endl;
+   
+   
+   
    hMCPrimaryProcess->Fill(g4PrimaryProcess[nG4Primary - 1]);
+   
+   // ##################################################
+   // ### Skipping events where the proton interacts ###
+   // ##################################################
+   if(g4PrimaryProcess[nG4Primary - 1] != 0){continue;}
+   
+   
 
    //=======================================================================================================================
    //				Only looking at events where the primary particle enters the TPC
@@ -1400,9 +1417,14 @@ if(g4Primary_Pz[nG4Primary] > 2480 && g4Primary_Pz[nG4Primary] < 2490) {EventWei
    
    //Vectors with calo info of the matched tpc track
    double Piondedx[1000]={0.};
+   double Piondqdx[1000]={0.};
    double Pionresrange[1000]={0.};
    double Pionpitchhit[1000]={0.};
    int nPionSpts = 0;
+   
+   float PionSptsX[1000];
+   float PionSptsY[1000];
+   float PionSptsZ[1000];
    
    // ################################################
    // ### Creating a flag for through going tracks ###
@@ -1443,6 +1465,7 @@ if(g4Primary_Pz[nG4Primary] > 2480 && g4Primary_Pz[nG4Primary] < 2490) {EventWei
 	 // ###                 Note: Format for this variable is:             ###
 	 // ### [trk number][plane 0 = induction, 1 = collection][spts number] ###
          Piondedx[nPionSpts]     = trkdedx[nTPCtrk][1][nspts];
+	 Piondqdx[nPionSpts]     = trkdqdx[nTPCtrk][1][nspts];
 	 
 	 // ####################################################################
 	 // #### Applying scale factor to get agreement between data and MC ####
@@ -1466,8 +1489,16 @@ if(g4Primary_Pz[nG4Primary] > 2480 && g4Primary_Pz[nG4Primary] < 2490) {EventWei
 	 Pionresrange[nPionSpts] = trkrr[nTPCtrk][1][nspts];
          Pionpitchhit[nPionSpts] = trkpitchhit[nTPCtrk][1][nspts];
 	 
+	 PionSptsX[nPionSpts] = trkx[nTPCtrk][nspts];
+	 PionSptsY[nPionSpts] = trky[nTPCtrk][nspts];
+	 PionSptsZ[nPionSpts] = trkz[nTPCtrk][nspts];
+	 
 	 // ### Histogramming the dE/dX ###
 	 hdataPiondEdX->Fill(Piondedx[nPionSpts]);
+	 
+	 // ### Histogramming the dQ/dX ###
+	 hdataPiondQdX->Fill(Piondqdx[nPionSpts]);
+	 
 	 // ### Histogramming the residual range ###
 	 hdataPionRR->Fill(Pionresrange[nPionSpts]);
 	 // ### Histogramming the Pitch ###
@@ -1562,6 +1593,66 @@ if(g4Primary_Pz[nG4Primary] > 2480 && g4Primary_Pz[nG4Primary] < 2490) {EventWei
       
       
       }//<---End nTPCtrk loop 
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// #################################################################
+// ### Deciding whether or not this looks like a stopping proton ###
+// #################################################################
+
+int nStopProtons = 0;
+int protonTrkNumber = -1;
+
+   // #########################################
+   // ### Loop over the tracks in the event ###
+   // #########################################
+   for(int nTPCtrk = 0; nTPCtrk < ntracks_reco; nTPCtrk++)
+      {
+      // ### Skipping all the tracks which aren't well matched ###
+      if(!MatchTPC_WVTrack[nTPCtrk]){continue;}
+      
+      
+      // ### Skipping events which are non-stopping ###
+      if(ThroughGoingTrack[nTPCtrk]){continue;}
+      
+      // ### Setting a boolian for low ionizing tracks and ###
+      // ###   tracks which get too close to the boundary  ###
+      
+      bool LowIonizingTrack = false;
+      bool CloseToTheEdge = false;
+      // ############################################
+      // ### Loop over all the calorimetry points ###
+      // ############################################
+      for(int npoints = 0; npoints < nPionSpts; npoints++)
+         {
+	 if(Piondedx[npoints] < 4.0 && Pionresrange[npoints]< 16)
+	    {LowIonizingTrack = true;}
+   
+	 
+	 if(PionSptsX[npoints] > 38 || PionSptsX[npoints] < 5 || PionSptsY[npoints] > 15 || 
+	    PionSptsY[npoints] < -15|| PionSptsZ[npoints] > 85)
+	    {CloseToTheEdge = true;}
+	 
+	 }//<---End npoints loop
+      
+      // ### Skip this track if it is minimum ionizing or too close to the edge
+      if(LowIonizingTrack || CloseToTheEdge)
+         {continue;}
+      
+      
+      protonTrkNumber = nTPCtrk;
+      nStopProtons++;
+      }//<---End nTPCtrk loop
+
+
+   // ##################################################
+   // ### Skip events which are not stopping protons ###
+   // ##################################################
+   if(nStopProtons != 1){continue;}
+
+
    
 // ---------------------------------------------------------------------------------------------------------------------------------------
    bool HasToBeReordered = false;
@@ -1602,6 +1693,7 @@ if(g4Primary_Pz[nG4Primary] > 2480 && g4Primary_Pz[nG4Primary] < 2490) {EventWei
       // ### Temp Variables for fixing ###
       double tempRR[1000] = {0.};
       double tempdEdX[1000] = {0.};
+      double tempdQdX[1000] = {0.};
       double tempPitch[1000] = {0.};
       
       // ### Start at the last point ###
@@ -1615,6 +1707,7 @@ if(g4Primary_Pz[nG4Primary] > 2480 && g4Primary_Pz[nG4Primary] < 2490) {EventWei
 	 // ### Reorder the points ###
 	 tempRR[bb] = Pionresrange[aa];
 	 tempdEdX[bb]     = Piondedx[aa];
+	 tempdQdX[bb]     = Piondqdx[aa];
 	 tempPitch[bb] = Pionpitchhit[aa];
 	 
 	 bb++;
@@ -1627,6 +1720,7 @@ if(g4Primary_Pz[nG4Primary] > 2480 && g4Primary_Pz[nG4Primary] < 2490) {EventWei
          {
 	 Pionresrange[reorder] = tempRR[reorder];
 	 Piondedx[reorder]     = tempdEdX[reorder];
+	 Piondqdx[reorder]     = tempdQdX[reorder];
 	 Pionpitchhit[reorder] = tempPitch[reorder];
 	 
 	 
@@ -1752,6 +1846,7 @@ if(g4Primary_Pz[nG4Primary] > 2480 && g4Primary_Pz[nG4Primary] < 2490) {EventWei
       hdataPiondEdXvsRRFix->Fill(Pionresrange[caloPoints], Piondedx[caloPoints]);
       
       hdataPiondEdXFixed->Fill(Piondedx[caloPoints]);
+      hdataPiondQdXFixed->Fill(Piondqdx[caloPoints]);
       
       if(g4PrimaryProcess[0] == 4 || g4PrimaryProcess[0] == 12 && InitialKinEnAtTPC < 300 )
          { hdataPiondEdXvsRRFixedDecCap->Fill(Pionresrange[caloPoints], Piondedx[caloPoints]);}
@@ -1947,46 +2042,7 @@ hdataPiondEdXvsRRFixedDecCap->Write();
 
 DeltaEvsPIDAAll->Write();
 DeltaEvsPIDADecayCap->Write();
+hdataPiondQdXFixed->Write();
+hdataPiondQdX->Write();
    
 }//<---End Loop() Function
-
-
-// ### Old event weights ###
-/*if(g4Primary_Pz[nG4Primary] > 0   && g4Primary_Pz[nG4Primary] < 100){EventWeight = 0.010;}
-if(g4Primary_Pz[nG4Primary] > 100 && g4Primary_Pz[nG4Primary] < 200){EventWeight = 0.020;}
-if(g4Primary_Pz[nG4Primary] > 200 && g4Primary_Pz[nG4Primary] < 300){EventWeight = 0.100;}
-if(g4Primary_Pz[nG4Primary] > 300 && g4Primary_Pz[nG4Primary] < 400){EventWeight = 0.535;}
-if(g4Primary_Pz[nG4Primary] > 400 && g4Primary_Pz[nG4Primary] < 500){EventWeight = 0.840;}
-if(g4Primary_Pz[nG4Primary] > 500 && g4Primary_Pz[nG4Primary] < 600){EventWeight = 0.965;}
-if(g4Primary_Pz[nG4Primary] > 600 && g4Primary_Pz[nG4Primary] < 700){EventWeight = 1.000;}
-if(g4Primary_Pz[nG4Primary] > 700 && g4Primary_Pz[nG4Primary] < 800){EventWeight = 0.620;}
-if(g4Primary_Pz[nG4Primary] > 800 && g4Primary_Pz[nG4Primary] < 900){EventWeight = 0.225;}
-if(g4Primary_Pz[nG4Primary] > 900 && g4Primary_Pz[nG4Primary] <1000){EventWeight = 0.094;}
-if(g4Primary_Pz[nG4Primary] >1000 && g4Primary_Pz[nG4Primary] <1100){EventWeight = 0.0275;}
- if(g4Primary_Pz[nG4Primary] >1100){EventWeight = 0.010;}*/
- 
-// ### New Event weights ###
-/*if(g4Primary_Pz[nG4Primary] > 0   && g4Primary_Pz[nG4Primary] < 100){EventWeight = 0.0;}
-if(g4Primary_Pz[nG4Primary] > 100   && g4Primary_Pz[nG4Primary] < 150){EventWeight = 0.001276;}
-if(g4Primary_Pz[nG4Primary] > 150   && g4Primary_Pz[nG4Primary] < 200){EventWeight = 0.006496;}
-if(g4Primary_Pz[nG4Primary] > 200   && g4Primary_Pz[nG4Primary] < 250){EventWeight = 0.006496;}
-if(g4Primary_Pz[nG4Primary] > 250   && g4Primary_Pz[nG4Primary] < 300){EventWeight = 0.665;}
-if(g4Primary_Pz[nG4Primary] > 300   && g4Primary_Pz[nG4Primary] < 350){EventWeight = 0.600;}
-if(g4Primary_Pz[nG4Primary] > 350   && g4Primary_Pz[nG4Primary] < 400){EventWeight = 0.793;}
-if(g4Primary_Pz[nG4Primary] > 400   && g4Primary_Pz[nG4Primary] < 450){EventWeight = 0.925;}
-if(g4Primary_Pz[nG4Primary] > 450   && g4Primary_Pz[nG4Primary] < 500){EventWeight = 0.735;}
-if(g4Primary_Pz[nG4Primary] > 500   && g4Primary_Pz[nG4Primary] < 550){EventWeight = 0.690;}
-if(g4Primary_Pz[nG4Primary] > 550   && g4Primary_Pz[nG4Primary] < 600){EventWeight = 0.882;}
-if(g4Primary_Pz[nG4Primary] > 600   && g4Primary_Pz[nG4Primary] < 650){EventWeight = 1.0;}
-if(g4Primary_Pz[nG4Primary] > 650   && g4Primary_Pz[nG4Primary] < 700){EventWeight = 0.984;}
-if(g4Primary_Pz[nG4Primary] > 700   && g4Primary_Pz[nG4Primary] < 750){EventWeight = 0.743;}
-if(g4Primary_Pz[nG4Primary] > 750   && g4Primary_Pz[nG4Primary] < 800){EventWeight = 0.552;}
-if(g4Primary_Pz[nG4Primary] > 800   && g4Primary_Pz[nG4Primary] < 850){EventWeight = 0.388;}
-if(g4Primary_Pz[nG4Primary] > 850   && g4Primary_Pz[nG4Primary] < 900){EventWeight = 0.292;}
-if(g4Primary_Pz[nG4Primary] > 900   && g4Primary_Pz[nG4Primary] < 950){EventWeight = 0.163;}
-if(g4Primary_Pz[nG4Primary] > 950   && g4Primary_Pz[nG4Primary] < 1000){EventWeight = 0.093;}
-if(g4Primary_Pz[nG4Primary] > 1000   && g4Primary_Pz[nG4Primary] < 1050){EventWeight = 0.059;}
-if(g4Primary_Pz[nG4Primary] > 1050   && g4Primary_Pz[nG4Primary] < 1100){EventWeight = 0.034;}
-if(g4Primary_Pz[nG4Primary] > 1100   && g4Primary_Pz[nG4Primary] < 1150){EventWeight = 0.009;}
-if(g4Primary_Pz[nG4Primary] > 1150   && g4Primary_Pz[nG4Primary] < 1500){EventWeight = 0.003;}
-if(g4Primary_Pz[nG4Primary] > 1500){EventWeight = 0.0;}*/

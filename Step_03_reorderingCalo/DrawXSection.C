@@ -14,7 +14,7 @@ float slab_width = 0.0045;//in m (from mean of track pitch)
 // ############################
 // ### Load Data Plots      ###
 // ############################
-TFile *f1 = new TFile("./histo_ROOTFILES/Data_PionXSection_histos_noCorrections.root");
+TFile *f1 = new TFile("./histo_ROOTFILES/DataNew_PionXSection_histos_reorderingOnly.root");
 
  TH1F* hDataInc = (TH1F*)f1->Get("hdataIncidentKE");
  TH1F* hDataInt = (TH1F*)f1->Get("hdataInteractingKE");
@@ -68,8 +68,7 @@ TFile *f1 = new TFile("./histo_ROOTFILES/Data_PionXSection_histos_noCorrections.
 // ############################
 // ### Load MC Plots        ###
 // ############################
-//TFile *f2 = new TFile("./histo_ROOTFILES/PionMC_PionXSection_histos_noCorrections_PzScaling.root");
-TFile *f2 = new TFile("./histo_ROOTFILES/PionMC_PionXSection_histos_noCorrections_wScalings_dEdXScale.root");
+TFile *f2 = new TFile("./histo_ROOTFILES/PionMC_NewMatch_wScalings_dEdXScale_Reordering.root");
  
  TH1F* hMCInc = (TH1F*)f2->Get("hdataIncidentKEunweighted");
  TH1F* hMCInt = (TH1F*)f2->Get("hdataInteractingKEunweighted");

@@ -7,13 +7,14 @@
 // #######################
 // ### Load Data Plots ###
 // #######################
-TFile *f1 = new TFile("./histo_ROOTFILES/DataNew_PionXSection_histos_reorderingOnly.root");
-
+//TFile *f1 = new TFile("./histo_ROOTFILES/Data_PionXSection_histos_noCorrections.root");
+TFile *f1 = new TFile("./histo_ROOTFILES/Data_Proton_histos_AllCorrections_v2.root");
 
 // ###################################
 // ### Load Pion Monte Carlo Plots ###
 // ###################################
-TFile *f2 = new TFile("./histo_ROOTFILES/PionMC_NewMatch_wScalings_dEdXScale_Reordering.root");
+TFile *f2 = new TFile("./histo_ROOTFILES/ProtonMC_NewMatch_wScalings_dEdXScale_Reordering_FixExtremeAndSmallFluctuation_RemoveStopping.root");
+//TFile *f2 = new TFile("./histo_ROOTFILES/PionMC_PionXSection_histos_noCorrections_noScalings.root");
 
 //--------------------------------------------------------------------------------------------------------------
 //						Delta X WC-TPC Track
@@ -93,9 +94,9 @@ wrongMatch_01->SetParameters(&par_01[3]);
 
 combined_01->SetRange(-30,30);
 TH1D* combined_histo = (TH1D*)combined_01->GetHistogram();
-combined_histo->SetFillColor(kBlue);
+combined_histo->SetFillColor(kCyan-2);
 combined_histo->SetFillStyle(3005);
-combined_histo->SetLineColor(kBlue);
+combined_histo->SetLineColor(kCyan-2);
 combined_histo->SetLineWidth(2);
 combined_histo->Draw("Csames");
 
@@ -133,7 +134,7 @@ leg->SetTextAlign(12);
 leg->SetFillColor(kWhite);
 leg->SetLineColor(kWhite);
 leg->SetShadowColor(kWhite);
-leg->SetHeader("Run-I Data");
+leg->SetHeader("LArIAT Run-I");
 leg->AddEntry(hDataDeltaXMatch,"Data");
 leg->AddEntry(combined_histo,"Right Match"); 
 leg->AddEntry(wrong_histo1,"Wrong Match");
@@ -218,9 +219,9 @@ wrongMatch_02->SetParameters(&par_02[3]);
 
 combined_02->SetRange(-30,30);
 TH1D* combined_histo2 = (TH1D*)combined_02->GetHistogram();
-combined_histo2->SetFillColor(kBlue);
+combined_histo2->SetFillColor(kCyan-2);
 combined_histo2->SetFillStyle(3005);
-combined_histo2->SetLineColor(kBlue);
+combined_histo2->SetLineColor(kCyan-2);
 combined_histo2->SetLineWidth(2);
 combined_histo2->Draw("Csames");
 
@@ -258,7 +259,7 @@ leg->SetTextAlign(12);
 leg->SetFillColor(kWhite);
 leg->SetLineColor(kWhite);
 leg->SetShadowColor(kWhite);
-leg->SetHeader("Run-I Data");
+leg->SetHeader("LArIAT Run-I");
 leg->AddEntry(hDataDeltaYMatch,"Data");
 leg->AddEntry(combined_histo2,"Right Match"); 
 leg->AddEntry(wrong_histo2,"Wrong Match");
@@ -317,8 +318,8 @@ t->DrawLatex(0.13,0.84,"");
 //--------------------------------------------------------------------------------------------------------------
 
 // ### Getting the data dE/dX plot ###
-TH1F *hDatadEdX = (TH1F*)f1->Get("hdataPiondEdX");
-
+TH1F *hDatadEdX = (TH1F*)f1->Get("hStoppedProtondEdX");
+//TH1F *hDatadEdX = (TH1F*)f1->Get("hdataProtondEdX");
 // ### Labeling the axis ###
 hDatadEdX->GetXaxis()->SetTitle("dE/dX (MeV / cm)");
 hDatadEdX->GetXaxis()->CenterTitle();
@@ -327,7 +328,7 @@ hDatadEdX->GetYaxis()->SetTitle("Events / 0.25 MeV/cm");
 hDatadEdX->GetYaxis()->CenterTitle(); 
 
 // ### Getting the MC dE/dX plot ###
-TH1F *hMCdEdX = (TH1F*)f2->Get("hdataPiondEdX");
+TH1F *hMCdEdX = (TH1F*)f2->Get("hdataPiondEdXFixed");
 
 // ### Labeling the axis ###
 hMCdEdX->GetXaxis()->SetTitle("dE/dX (MeV / cm)");
@@ -349,11 +350,11 @@ double scaleMC = DataIntegral/MCIntegral;
 // ==================================================
 Double_t par_03[6];
 TF1 *data_dedx_landau = new TF1("data_dedx_landau","landau",0, 50);
-TF1 *combined_data_dedx   = new TF1("combined_data_dedx","landau+gaus",0,50);
+TF1 *combined_data_dedx   = new TF1("combined_data_dedx","landau",0,50);
 
 
 TF1 *mc_dedx_landau   = new TF1("mc_dedx_landau","landau",0, 50);
-TF1 *combined_mc_dedx   = new TF1("combined_mc_dedx","landau+gaus",0,50);
+TF1 *combined_mc_dedx   = new TF1("combined_mc_dedx","landau",0,50);
 
 // ### Scaling MC ###
 hMCdEdX->Sumw2();
@@ -407,7 +408,7 @@ mc_dedx_landau->GetParameters(&par_03[0]); //<---Getting parameters from fit 0,1
 // == Putting in parameters into combined plots ==
 // ===============================================
 combined_mc_dedx->SetParameters(par_03);
-combined_mc_dedx->SetParLimits(0,0,900000);
+//combined_mc_dedx->SetParLimits(0,0,900000);
 
 
 std::cout<<std::endl;
@@ -441,7 +442,7 @@ c04->SetTicks();
 c04->SetFillColor(kWhite);
 
 
-hMCdEdX->SetLineColor(kBlue);
+hMCdEdX->SetLineColor(kCyan-2);
 hMCdEdX->SetLineStyle(0);
 hMCdEdX->SetLineWidth(3);
 
@@ -478,212 +479,17 @@ leg->SetTextAlign(12);
 leg->SetFillColor(kWhite);
 leg->SetLineColor(kWhite);
 leg->SetShadowColor(kWhite);
-leg->SetHeader("Run-I Data");
+leg->SetHeader("LArIAT Run-I");
 leg->AddEntry(hDatadEdX,"Data");
-leg->AddEntry(hMCdEdX,"#pi^{-} MC"); 
-leg->AddEntry(dataFit_histo,"Data Fit: MPV = 1.97 #sigma 0.43");
-leg->AddEntry(MCFit_histo," MC  Fit: MPV = 1.96 #sigma 0.26");
-leg->Draw();
-
-
-
-
-//--------------------------------------------------------------------------------------------------------------
-//					Incident Kinetic Energy Plots
-//--------------------------------------------------------------------------------------------------------------
-
-// ### Getting the data Incident Kinetic Energy plot ###
-TH1F *hDataInKE = (TH1F*)f1->Get("hdataIncidentKE");
-
-// ### Labeling the axis ###
-hDataInKE->GetXaxis()->SetTitle("Kinetic Energy (MeV)");
-hDataInKE->GetXaxis()->CenterTitle();
-
-hDataInKE->GetYaxis()->SetTitle("Events / 50 MeV");
-hDataInKE->GetYaxis()->CenterTitle(); 
-
-// ########################################################
-// ###      Scaling factor for through going muon       ###
-// ### Note: If you have a 10% contamination than your  ###
-// ###            scale factor should be 0.90           ###
-// ########################################################
-double MuonContaminationScaleFactor = 0.90;
-    
-// ===============================================================================================================
-// 					SCALING FOR THE MUON CONTAMINATION
-// ==========================================================================================================
-    
-hDataInKE->Scale(MuonContaminationScaleFactor);
-
-// ### Getting the MC Incident Kinetic Energy plot ###
-TH1F *hMCInKE = (TH1F*)f2->Get("hdataIncidentKE");
-
-// ### Labeling the axis ###
-hMCInKE->GetXaxis()->SetTitle("Kinetic Energy (MeV)");
-hMCInKE->GetXaxis()->CenterTitle();
-
-hMCInKE->GetYaxis()->SetTitle("Events / 50 MeV");
-hMCInKE->GetYaxis()->CenterTitle(); 
-
-// ### Normalizing MC to Data ###
-double MCIntegralInKE = hMCInKE->Integral();
-double DataIntegralDataInKE = hDataInKE->Integral();
-
-double scaleMCInKE = DataIntegralDataInKE/MCIntegralInKE;
-
-std::cout<<"scaleMCInKE = "<<scaleMCInKE<<std::endl;
-
-// ### Scaling MC ###
-hMCInKE->Sumw2();
-hMCInKE->Scale(scaleMCInKE);
-//hMCInKE->Scale(5.27729);
-
-// ########################
-// ### Making a TCanvas ###
-// ########################
-TCanvas *c05 = new TCanvas("c05", "Incident Kinetic Energy");
-c05->SetTicks();
-c05->SetFillColor(kWhite);
-
-
-hMCInKE->SetLineColor(kRed+2);
-hMCInKE->SetLineStyle(0);
-hMCInKE->SetLineWidth(3);
-hMCInKE->SetFillColor(kRed+2);
-hMCInKE->SetFillStyle(3006);
-
-hDataInKE->SetLineColor(kBlack);
-hDataInKE->SetLineStyle(0);
-hDataInKE->SetLineWidth(3);
-hDataInKE->SetMarkerStyle(8);
-hDataInKE->SetMarkerSize(0.9);
-
-// ### Drawing the histograms ###
-hMCInKE->Draw("histo");
-hDataInKE->Draw("E1same");
-
-// ############################
-// # Setting the Latex Header #
-// ############################
-//TLatex *t = new TLatex();
-t->SetNDC();
-t->SetTextFont(62);
-t->SetTextSize(0.04);
-t->SetTextAlign(40);
-t->DrawLatex(0.1,0.90,"LArIAT Preliminary");
-t->DrawLatex(0.13,0.84,""); 
-
-
-//TLegend *leg = new TLegend();
-leg = new TLegend(0.58,0.65,0.88,0.88);
-leg->SetTextSize(0.04);
-leg->SetTextAlign(12);
-leg->SetFillColor(kWhite);
-leg->SetLineColor(kWhite);
-leg->SetShadowColor(kWhite);
-leg->SetHeader("Run-I Data");
-leg->AddEntry(hDataInKE,"Data");
-leg->AddEntry(hMCInKE,"#pi^{-} MC"); 
-//leg->AddEntry(dataFit_histo,"Data Fit: MPV = 1.68 #sigma 0.17");
-//leg->AddEntry(MCFit_histo," MC  Fit: MPV = 1.80 #sigma 0.24");
+leg->AddEntry(hMCdEdX,"Proton MC"); 
+leg->AddEntry(dataFit_histo,"Data Fit: MPV = 6.31 #sigma 1.57");
+leg->AddEntry(MCFit_histo," MC  Fit: MPV = 4.24 #sigma 0.73");
 leg->Draw();
 
 
 
 
 
-
-
-
-//--------------------------------------------------------------------------------------------------------------
-//					Interacting Kinetic Energy Plots
-//--------------------------------------------------------------------------------------------------------------
-
-// ### Getting the data Incident Kinetic Energy plot ###
-TH1F *hDataIntKE = (TH1F*)f1->Get("hdataInteractingKE");
-
-// ### Labeling the axis ###
-hDataIntKE->GetXaxis()->SetTitle("Kinetic Energy (MeV)");
-hDataIntKE->GetXaxis()->CenterTitle();
-
-hDataIntKE->GetYaxis()->SetTitle("Events / 50 MeV");
-hDataIntKE->GetYaxis()->CenterTitle(); 
-
-
-// ### Getting the MC Incident Kinetic Energy plot ###
-TH1F *hMCIntKE = (TH1F*)f2->Get("hdataInteractingKE");
-
-// ### Labeling the axis ###
-hMCIntKE->GetXaxis()->SetTitle("Kinetic Energy (MeV)");
-hMCIntKE->GetXaxis()->CenterTitle();
-
-hMCIntKE->GetYaxis()->SetTitle("Events / 50 MeV");
-hMCIntKE->GetYaxis()->CenterTitle(); 
-
-// ### Normalizing MC to Data ###
-double MCIntegralIntKE = hMCIntKE->Integral();
-double DataIntegralDataIntKE = hDataIntKE->Integral();
-
-double scaleMCIntKE = DataIntegralDataIntKE/MCIntegralIntKE;
-
-std::cout<<"scaleMCIntKE = "<<scaleMCIntKE<<std::endl;
-
-// ### Scaling MC ###
-hMCIntKE->Sumw2();
-//hMCIntKE->Scale(scaleMCInKE);
-hMCIntKE->Scale(scaleMCIntKE);
-
-
-// ########################
-// ### Making a TCanvas ###
-// ########################
-TCanvas *c06 = new TCanvas("c06", "Interacting Kinetic Energy");
-c06->SetTicks();
-c06->SetFillColor(kWhite);
-
-
-hMCIntKE->SetLineColor(kGreen+3);
-hMCIntKE->SetLineStyle(0);
-hMCIntKE->SetLineWidth(3);
-hMCIntKE->SetFillColor(kGreen+3);
-hMCIntKE->SetFillStyle(3006);
-
-hDataIntKE->SetLineColor(kBlack);
-hDataIntKE->SetLineStyle(0);
-hDataIntKE->SetLineWidth(3);
-hDataIntKE->SetMarkerStyle(8);
-hDataIntKE->SetMarkerSize(0.9);
-
-// ### Drawing the histograms ###
-hDataIntKE->Draw("E1");
-hMCIntKE->Draw("histosame");
-//hDataIntKE->Draw("E1same");
-
-// ############################
-// # Setting the Latex Header #
-// ############################
-//TLatex *t = new TLatex();
-t->SetNDC();
-t->SetTextFont(62);
-t->SetTextSize(0.04);
-t->SetTextAlign(40);
-t->DrawLatex(0.1,0.90,"LArIAT Preliminary");
-t->DrawLatex(0.13,0.84,""); 
-
-
-//TLegend *leg = new TLegend();
-leg = new TLegend(0.58,0.65,0.88,0.88);
-leg->SetTextSize(0.04);
-leg->SetTextAlign(12);
-leg->SetFillColor(kWhite);
-leg->SetLineColor(kWhite);
-leg->SetShadowColor(kWhite);
-leg->SetHeader("Run-I Data");
-leg->AddEntry(hDataIntKE,"Data");
-leg->AddEntry(hMCIntKE,"#pi^{-} MC"); 
-//leg->AddEntry(dataFit_histo,"Data Fit: MPV = 1.68 #sigma 0.17");
-//leg->AddEntry(MCFit_histo," MC  Fit: MPV = 1.80 #sigma 0.24");
-leg->Draw();
 
 
 
@@ -693,7 +499,7 @@ leg->Draw();
 
 
 // ### Getting the data Incident Kinetic Energy plot ###
-TH1F *hDataTrkPitch = (TH1F*)f1->Get("hdataPionTrkPitch");
+TH1F *hDataTrkPitch = (TH1F*)f1->Get("hStoppedProtonTrkPitch");
 
 // ### Labeling the axis ###
 hDataTrkPitch->GetXaxis()->SetTitle("Track Pitch (cm)");
@@ -730,10 +536,10 @@ TCanvas *c07 = new TCanvas("c07", "Track Pitch");
 c07->SetTicks();
 c07->SetFillColor(kWhite);
 
-hMCTrkPitch->SetLineColor(kBlue);
+hMCTrkPitch->SetLineColor(kCyan-2);
 hMCTrkPitch->SetLineStyle(0);
 hMCTrkPitch->SetLineWidth(3);
-hMCTrkPitch->SetFillColor(kBlue);
+hMCTrkPitch->SetFillColor(kCyan-2);
 hMCTrkPitch->SetFillStyle(3006);
 
 hDataTrkPitch->SetLineColor(kBlack);
@@ -765,9 +571,9 @@ leg->SetTextAlign(12);
 leg->SetFillColor(kWhite);
 leg->SetLineColor(kWhite);
 leg->SetShadowColor(kWhite);
-leg->SetHeader("Run-I Data");
+leg->SetHeader("LArIAT Run-I");
 leg->AddEntry(hDataTrkPitch,"Data");
-leg->AddEntry(hMCTrkPitch,"#pi^{-} MC"); 
+leg->AddEntry(hMCTrkPitch,"Proton MC"); 
 //leg->AddEntry(dataFit_histo,"Data Fit: MPV = 1.68 #sigma 0.17");
 //leg->AddEntry(MCFit_histo," MC  Fit: MPV = 1.80 #sigma 0.24");
 leg->Draw();
@@ -852,10 +658,10 @@ TCanvas *c09 = new TCanvas("c09", "Track Length");
 c09->SetTicks();
 c09->SetFillColor(kWhite);
 
-hMCTrkLength->SetLineColor(kBlue);
+hMCTrkLength->SetLineColor(kCyan-2);
 hMCTrkLength->SetLineStyle(0);
 hMCTrkLength->SetLineWidth(3);
-hMCTrkLength->SetFillColor(kBlue);
+hMCTrkLength->SetFillColor(kCyan-2);
 hMCTrkLength->SetFillStyle(3006);
 
 hDataTrkLength->SetLineColor(kBlack);
@@ -887,9 +693,184 @@ leg->SetTextAlign(12);
 leg->SetFillColor(kWhite);
 leg->SetLineColor(kWhite);
 leg->SetShadowColor(kWhite);
-leg->SetHeader("Run-I Data");
+leg->SetHeader("LArIAT Run-I");
 leg->AddEntry(hDataTrkLength,"Data");
-leg->AddEntry(hMCTrkLength,"#pi^{-} MC"); 
+leg->AddEntry(hMCTrkLength,"Proton MC"); 
+leg->Draw();
+
+
+
+//--------------------------------------------------------------------------------------------------------------
+//						dQ/dX Plots
+//--------------------------------------------------------------------------------------------------------------
+
+// ### Getting the data dQ/dX plot ###
+TH1F *hDatadQdX = (TH1F*)f1->Get("hdataProtondQdXFixed");
+//TH1F *hDatadEdX = (TH1F*)f1->Get("hdataProtondEdX");
+// ### Labeling the axis ###
+hDatadQdX->GetXaxis()->SetTitle("dQ/dX");
+hDatadQdX->GetXaxis()->CenterTitle();
+
+hDatadQdX->GetYaxis()->SetTitle("Events / 0.25");
+hDatadQdX->GetYaxis()->CenterTitle(); 
+
+// ### Getting the MC dE/dX plot ###
+TH1F *hMCdQdX = (TH1F*)f2->Get("hdataPiondQdXFixed");
+
+// ### Labeling the axis ###
+hMCdQdX->GetXaxis()->SetTitle("dQ/dX");
+hMCdQdX->GetXaxis()->CenterTitle();
+
+hMCdQdX->GetYaxis()->SetTitle("Events / 0.25 MeV/cm");
+hMCdQdX->GetYaxis()->CenterTitle(); 
+
+// ### Normalizing MC to Data ###
+double MCIntegral = hMCdQdX->Integral();
+double DataIntegral = hDatadQdX->Integral();
+
+double scaleMC = DataIntegral/MCIntegral;
+
+
+// ==================================================
+// == Initializing the parameters which record the ==
+// == fit parameters (3 for gaussian 3 for landau) ==
+// ==================================================
+Double_t par_04[6];
+TF1 *data_dedq_landau = new TF1("data_dedq_landau","landau",3000, 20000);
+TF1 *combined_data_dedq   = new TF1("combined_data_dedq","landau",3000, 20000);
+
+
+TF1 *mc_dqdx_landau   = new TF1("mc_dqdx_landau","landau",3000, 20000);
+TF1 *combined_mc_dqdx   = new TF1("combined_mc_dqdx","landau",3000, 20000);
+
+// ### Scaling MC ###
+hMCdQdX->Sumw2();
+hMCdQdX->Scale(scaleMC);
+
+// ### Fitting the data dE/dX with Landau as a seed ###
+hDatadQdX->Fit(data_dedq_landau,"R+0LLi","0",3000, 20000);
+
+// ### Get the seed parameters for the Landau+Gaus fit ###
+data_dedq_landau->GetParameters(&par_04[0]); //<---Getting parameters from fit 0,1,2
+
+
+// ===============================================
+// == Putting in parameters into combined plots ==
+// ===============================================
+combined_data_dedq->SetParameters(par_04);
+combined_data_dedq->SetParLimits(0,0,900000);
+
+
+// ============================================
+// ==== Doing the Landau + Gaussian Fit =======
+// ============================================
+
+std::cout<<std::endl;
+std::cout<<"======================================="<<std::endl;
+std::cout<<"Data dQ/dX"<<std::endl;
+std::cout<<"======================================="<<std::endl;
+std::cout<<std::endl;
+
+hDatadQdX->Fit(combined_data_dedq,"R0LLi","0",3000, 20000);
+
+// #######################################
+// ### Making a histogram from the fit ###
+// #######################################
+combined_data_dedq->GetParameters(par_04);
+combined_data_dedq->SetRange(3000,20000);
+TH1D* dataFit_histo = (TH1D*)combined_data_dedq->GetHistogram();
+dataFit_histo->SetFillColor(kBlack);
+dataFit_histo->SetFillStyle(3005);
+dataFit_histo->SetLineColor(kBlack);
+dataFit_histo->SetLineWidth(2);
+
+
+// ### Fitting the MC dE/dX with Landau as a seed ###
+hMCdQdX->Fit(mc_dqdx_landau,"R+0LLi","0",3000 , 20000);
+
+// ### Get the seed parameters for the Landau+Gaus fit ###
+mc_dqdx_landau->GetParameters(&par_04[0]); //<---Getting parameters from fit 0,1,2
+
+// ===============================================
+// == Putting in parameters into combined plots ==
+// ===============================================
+combined_mc_dqdx->SetParameters(par_04);
+//combined_mc_dqdx->SetParLimits(0,0,900000);
+
+
+std::cout<<std::endl;
+std::cout<<"======================================="<<std::endl;
+std::cout<<"MC dQ/dX"<<std::endl;
+std::cout<<"======================================="<<std::endl;
+std::cout<<std::endl;
+
+// ============================================
+// ==== Doing the Landau + Gaussian Fit =======
+// ============================================
+hMCdQdX->Fit(combined_mc_dqdx,"R0LLi","0",3000, 20000);
+
+// #######################################
+// ### Making a histogram from the fit ###
+// #######################################
+combined_mc_dqdx->GetParameters(par_03);
+combined_mc_dqdx->SetRange(3000,20000);
+TH1D* MCFit_histo = (TH1D*)combined_mc_dqdx->GetHistogram();
+MCFit_histo->SetFillColor(kCyan-9);
+MCFit_histo->SetFillStyle(3002);
+MCFit_histo->SetLineColor(kCyan-9);
+MCFit_histo->SetLineWidth(2);
+
+
+// ########################
+// ### Making a TCanvas ###
+// ########################
+TCanvas *c10 = new TCanvas("c10", "dQdX");
+c10->SetTicks();
+c10->SetFillColor(kWhite);
+
+
+hMCdQdX->SetLineColor(kCyan-2);
+hMCdQdX->SetLineStyle(0);
+hMCdQdX->SetLineWidth(3);
+
+hDatadQdX->SetLineColor(kBlack);
+hDatadQdX->SetLineStyle(0);
+hDatadQdX->SetLineWidth(3);
+hDatadQdX->SetMarkerStyle(8);
+hDatadQdX->SetMarkerSize(0.9);
+
+
+// ### Drawing the histograms ###
+hMCdQdX->Draw("histo");
+dataFit_histo->Draw("Csames");
+MCFit_histo->Draw("Csames");
+hDatadQdX->Draw("E1same");
+
+
+// ############################
+// # Setting the Latex Header #
+// ############################
+//TLatex *t = new TLatex();
+t->SetNDC();
+t->SetTextFont(62);
+t->SetTextSize(0.04);
+t->SetTextAlign(40);
+t->DrawLatex(0.1,0.90,"LArIAT Preliminary");
+t->DrawLatex(0.13,0.84,""); 
+
+
+//TLegend *leg = new TLegend();
+leg = new TLegend(0.58,0.65,0.88,0.88);
+leg->SetTextSize(0.04);
+leg->SetTextAlign(12);
+leg->SetFillColor(kWhite);
+leg->SetLineColor(kWhite);
+leg->SetShadowColor(kWhite);
+leg->SetHeader("LArIAT Run-I");
+leg->AddEntry(hDatadQdX,"Data");
+leg->AddEntry(hMCdQdX,"Proton MC"); 
+leg->AddEntry(dataFit_histo,"Data Fit: MPV = 6.31 #sigma 1.57");
+leg->AddEntry(MCFit_histo," MC  Fit: MPV = 4.24 #sigma 0.73");
 leg->Draw();
 
 

@@ -18,10 +18,10 @@ float slab_width = 0.0045;//in m (from mean of track pitch)
 // ====================================
 // === Monte Carlo with no scalings ===
 // ====================================
-TFile *f1 = new TFile("./histo_ROOTFILES/PionMC_NewMatch_wScalings_dEdXScale.root");
+TFile *f1 = new TFile("../Step_04_dEdXFix/histo_ROOTFILES/DataNew_NewTOF_NewMatch_PionXSection_histos_reordering_FixExtremeAndSmallFluctuation.root");
 
- TH1F* hMCIncNoFix = (TH1F*)f1->Get("hdataIncidentKEunweighted");
- TH1F* hMCIntNoFix = (TH1F*)f1->Get("hdataInteractingKEunweighted");
+ TH1F* hMCIncNoFix = (TH1F*)f1->Get("hdataIncidentKE");
+ TH1F* hMCIntNoFix = (TH1F*)f1->Get("hdataInteractingKE");
  TH1F* MCCrossSectionNoFix = (TH1F*)f1->Get("fCrossSection");
  TH1F* MCCrossSysNoFix = (TH1F*)fCrossSection->Clone();
  MCCrossSysNoFix->SetName("MCCrossSysNoFix");
@@ -92,10 +92,10 @@ TFile *f1 = new TFile("./histo_ROOTFILES/PionMC_NewMatch_wScalings_dEdXScale.roo
 // ===============================================
 // === Monte Carlo with beam spectrum scalings ===
 // ===============================================
-TFile *f2 = new TFile("./histo_ROOTFILES/PionMC_NewMatch_wScalings_dEdXScale_Reordering.root");
+TFile *f2 = new TFile("./histo_ROOTFILES/DataNew_PionXSection_histos_reordering_FixExtremeAndSmallFluctuation_RemoveStop.root");
 
- TH1F* hMCInc = (TH1F*)f2->Get("hdataIncidentKEunweighted");
- TH1F* hMCInt = (TH1F*)f2->Get("hdataInteractingKEunweighted");
+ TH1F* hMCInc = (TH1F*)f2->Get("hdataIncidentKE");
+ TH1F* hMCInt = (TH1F*)f2->Get("hdataInteractingKE");
  TH1F* MCCrossSection = (TH1F*)f2->Get("fCrossSection");
  TH1F* MCCrossSys = (TH1F*)fCrossSection->Clone();
  MCCrossSys->SetName("MCCrossSys");

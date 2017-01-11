@@ -8,33 +8,33 @@
 // #######################
 // ### Load Data Plots ###
 // #######################
-TFile *f1 = new TFile("./histo_ROOTFILES/DataNew_PionXSection_histos_reorderingOnly.root");
+TFile *f1 = new TFile("./histo_ROOTFILES/DataNew_PionXSection_histos_reordering_FixExtremeAndSmallFluctuation_RemoveStop.root");
 
 
 // ###################################
 // ### Load Pion Monte Carlo Plots ###
 // ###################################
-TFile *f2 = new TFile("./histo_ROOTFILES/PionMC_NewMatch_wScalings_dEdXScale_Reordering.root");
+TFile *f2 = new TFile("./histo_ROOTFILES/PionMC_NewMatch_wScalings_dEdXScale_Reordering_FixExtremeAndSmallFluctuation_RemoveStopping.root");
 
 // ###################################
 // ### Load Muon Monte Carlo Plots ###
 // ###################################
-TFile *f3 = new TFile("./histo_ROOTFILES/MuonMC_NewMatch_wScalings_dEdXScale_Reordering.root");
+TFile *f3 = new TFile("./histo_ROOTFILES/MuonMC_NewMatch_wScalings_dEdXScale_Reordering_FixExtremeAndSmallFluctuation_RemoveStop.root");
 
 // ###################################
 // ### Load Muon Monte Carlo Plots ###
 // ###################################
-TFile *f4 = new TFile("./histo_ROOTFILES/ElectronMC_NewMatch_wScalings_dEdXScale_Reordering.root");
+TFile *f4 = new TFile("./histo_ROOTFILES/ElectronMC_NewMatch_wScalings_dEdXScale_Reordering_FixExtremeAndSmallFluctuation_RemoveStop.root");
 
 // ###################################
 // ### Load Kaon Monte Carlo Plots ###
 // ###################################
-TFile *f5 = new TFile("./histo_ROOTFILES/KaonMC_NewMatch_wScalings_dEdXScale_Reordering.root");
+TFile *f5 = new TFile("./histo_ROOTFILES/KaonMC_NewMatch_wScalings_dEdXScale_Reordering_FixExtremeAndSmallFluctuation_RemoveStop.root");
 
 // #####################################
 // ### Load Photon Monte Carlo Plots ###
 // #####################################
-TFile *f6 = new TFile("./histo_ROOTFILES/PhotonMC_NewMatch_wScalings_dEdXScale_Reordering.root");
+TFile *f6 = new TFile("./histo_ROOTFILES/PhotonMC_NewMatch_wScalings_dEdXScale_Reordering_FixExtremeAndSmallFluctuation_RemoveStop.root");
 
 
 //--------------------------------------------------------------------------------------------------------------

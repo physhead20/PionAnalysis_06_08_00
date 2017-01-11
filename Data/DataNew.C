@@ -70,6 +70,9 @@ TH1D *hdataInitialKEMomentumUnWeighted = new TH1D("hdataInitialKEMomentumUnWeigh
 /////////////////////////////////// "Matched Track" dE/dX /////////////////////////////////////////////////////
 TH1D *hdataPiondEdX = new TH1D("hdataPiondEdX", "Matched Track dE/dX", 200, 0, 50);
 
+/////////////////////////////////// "Matched Track" dQ/dX /////////////////////////////////////////////////////
+TH1D *hdataPiondQdX = new TH1D("hdataPiondQdX", "Matched Track dQ/dX", 1700, 3000, 20000);
+
 /////////////////////////////////// "Matched Track" Residual Range //////////////////////////////////////////
 TH1D *hdataPionRR = new TH1D("hdataPionRR", "Matched Track Residual Range", 400, -100, 100);
 
@@ -81,6 +84,12 @@ TH2D *hdataPiondEdXvsRR = new TH2D("hdataPiondEdXvsRR", "dE/dX vs Residual Range
 
 ///////////////////////////////// "Matched Track" dE/dX vs RR (Fixed) ///////////////////////////////////////////////
 TH2D *hdataPiondEdXvsRRFix = new TH2D("hdataPiondEdXvsRRFix", "dE/dX vs Residual Range",200, 0, 100, 200, 0, 50);
+
+/////////////////////////////////// "Matched Track" dE/dX (Fixed) /////////////////////////////////////////////////////
+TH1D *hdataPiondEdXFixed = new TH1D("hdataPiondEdXFixed", "Matched Track dE/dX", 200, 0, 50);
+
+/////////////////////////////////// "Matched Track" dQ/dX (Fixed) /////////////////////////////////////////////////////
+TH1D *hdataPiondQdXFixed = new TH1D("hdataPiondQdXFixed", "Matched Track dQ/dX", 1700, 3000, 20000);
 
 
 //////////////////////////////// "Low Momentum Track" PIDA (no cuts) ///////////////////////////////////////
@@ -96,6 +105,13 @@ TH1D *hdataTrkInitialX = new TH1D("hdataTrkInitialX", "Initial X Position of the
 
 /////////////////////////////////// Initial Track Y Position ////////////////////////////////////////////////////////
 TH1D *hdataTrkInitialY = new TH1D("hdataTrkInitialY", "Initial Y Position of the TPC Track", 100, -25, 25);
+
+
+///////////////////////////////// Fixed Points X vs Z ///////////////////////////////////////////////
+TH2D *hdataFixedCaloPointZX = new TH2D("hdataFixedCaloPointZX", "Fixed Points X vs Z",180, 0, 90, 90, 0, 45);
+
+///////////////////////////////// Fixed Points X vs Z ///////////////////////////////////////////////
+TH2D *hdataFixedCaloPointZY = new TH2D("hdataFixedCaloPointZY", "Fixed Points Y vs Z",180, 0, 90, 80, -20, 20);
 
 
 // ###############################################################################
@@ -225,7 +241,7 @@ bool UseEventWeight = false;
 // ### True  = Use the fix                            ###
 // ### False = Don't use the fix                      ###
 // ######################################################
-bool FixCaloIssue_Reordering = false; 
+bool FixCaloIssue_Reordering = true; 
 
 
 // ######################################################
@@ -235,7 +251,7 @@ bool FixCaloIssue_Reordering = false;
 // ### True  = Use the fix                            ###
 // ### False = Don't use the fix                      ###
 // ######################################################
-bool FixCaloIssue_ExtremeFluctuation = false;     
+bool FixCaloIssue_ExtremeFluctuation = true;     
 
 // ########################################################
 // ###   Choose whether or not to fix the calo problems ###
@@ -244,7 +260,7 @@ bool FixCaloIssue_ExtremeFluctuation = false;
 // ### True  = Use the fix                              ###
 // ### False = Don't use the fix                        ###
 // ########################################################
-bool FixCaloIssue_LessExtremeFluctuation = false;  
+bool FixCaloIssue_LessExtremeFluctuation = true;  
 
 
 // ##########################################################
@@ -253,7 +269,7 @@ bool FixCaloIssue_LessExtremeFluctuation = false;
 // ### True  = Remove stoppping tagged tracks             ###
 // ### False = Don't remove stopping tagged tracks        ###
 // ##########################################################
-bool RemoveStopping = false;
+bool RemoveStopping = true;
 
 
 
@@ -262,11 +278,11 @@ bool RemoveStopping = false;
 // ###############################################
 // ### Creating a file to output my histograms ###
 // ###############################################
-TFile myfile("DataNew_NewTOF_NewMatch_PionXSection_histos_noCorrections.root","RECREATE");
+//TFile myfile("DataNew_NewTOF_NewMatch_PionXSection_histos_noCorrections.root","RECREATE");
 //TFile myfile("DataNew_PionXSection_histos_reorderingOnly.root","RECREATE");
 //TFile myfile("DataNew_PionXSection_histos_reordering_FixExtremeFluctuation.root","RECREATE");
 //TFile myfile("DataNew_PionXSection_histos_reordering_FixExtremeAndSmallFluctuation.root","RECREATE");
-//TFile myfile("DataNew_PionXSection_histos_reordering_FixExtremeAndSmallFluctuation_RemoveStopping.root","RECREATE");   
+TFile myfile("DataNew_PionXSection_histos_reordering_FixExtremeAndSmallFluctuation_RemoveStopping.root","RECREATE");   
 
 
 // ###################################################
@@ -839,9 +855,14 @@ for (Long64_t jentry=0; jentry<nentries;jentry++)
    
    //Vectors with calo info of the matched tpc track
    double Piondedx[1000]={0.};
+   double Piondqdx[1000]={0.};
    double Pionresrange[1000]={0.};
    double Pionpitchhit[1000]={0.};
    int nPionSpts = 0;
+   
+   float PionSptsX[1000];
+   float PionSptsY[1000];
+   float PionSptsZ[1000];
    
    // ################################################
    // ### Creating a flag for through going tracks ###
@@ -872,49 +893,7 @@ for (Long64_t jentry=0; jentry<nentries;jentry++)
       if(trkendx[nTPCtrk] < 1   || trkendx[nTPCtrk] > 42.0 || trkendy[nTPCtrk] > 19 ||
          trkendy[nTPCtrk] < -19 || trkendz[nTPCtrk] > 89.0)
          {ThroughGoingTrack[nTPCtrk] = true;}
-      
-      // #####################################################
-      // ### Check to see if this track is consistent with ###
-      // ###          being from a stopping track 	   ###
-      // #####################################################
-      if(InitialKinEnAtTPC < 300)
-         {
-	 // ### Filling the  tracks PIDA value ###
-	 hdataLowMomentumTrkPIDA->Fill(trkpida[nTPCtrk][1]);
-	 
-	 // ##########################################
-	 // ###  If the PIDA is between 9 and 13   ###
-	 // ##########################################
-	 if(trkpida[nTPCtrk][1] >= 9 && trkpida[nTPCtrk][1] <= 13)
-	    {
-	    
-	    //### Setting the last energy points variable ###
-	    double lastDeltaE = 0;
-	    
-	    // ### Loop over the last five points of the track ###
-	    if(ntrkhits[nTPCtrk] >= 5)
-	       {
-	       for(int nlastspts = ntrkhits[nTPCtrk] - 1; nlastspts > ntrkhits[nTPCtrk] - 5; nlastspts--)
-	          {
-		  // ### Add up the energy in the last 5 points ###
-		  lastDeltaE += (trkpitchhit[nTPCtrk][1][nlastspts] * trkdedx[nTPCtrk][1][nlastspts]);
 
-	          }//<---End nlastspts loop
-
-	       }//<---End only looking if the track has 5 points
-	    
-	    // ### IF the Delta E is between 7 and 25, tag as a stopping track ###
-	    if(lastDeltaE >= 7 && lastDeltaE <= 25)
-	       {
-	       // ### Only setting the flag if we are tagging events ###
-	       if(RemoveStopping)
-	          {StoppingParticle[nTPCtrk] = true;}
-	       
-	       }
-	    
-	    
-	    }//<---End looking at 9 < PIDA < 13
-	 }//<---End looking at low momentum tracks
       
       
       // ###############################################################
@@ -925,6 +904,7 @@ for (Long64_t jentry=0; jentry<nentries;jentry++)
 	 // ###                 Note: Format for this variable is:             ###
 	 // ### [trk number][plane 0 = induction, 1 = collection][spts number] ###
          Piondedx[nPionSpts]     = trkdedx[nTPCtrk][1][nspts];
+	 Piondqdx[nPionSpts]     = trkdqdx[nTPCtrk][1][nspts];
 	 
 	 // ### Putting in a fix in the case that the dE/dX is negative in this step ### 
 	 // ###  then take the point before and the point after and average them
@@ -938,8 +918,16 @@ for (Long64_t jentry=0; jentry<nentries;jentry++)
 	 Pionresrange[nPionSpts] = trkrr[nTPCtrk][1][nspts];
          Pionpitchhit[nPionSpts] = trkpitchhit[nTPCtrk][1][nspts];
 	 
+	 PionSptsX[nPionSpts] = trkx[nTPCtrk][nspts];
+	 PionSptsY[nPionSpts] = trky[nTPCtrk][nspts];
+	 PionSptsZ[nPionSpts] = trkz[nTPCtrk][nspts];
+	 
 	 // ### Histogramming the dE/dX ###
 	 hdataPiondEdX->Fill(Piondedx[nPionSpts]);
+	 
+	 // ### Histogramming the dQ/dX ###
+	 hdataPiondQdX->Fill(Piondqdx[nPionSpts]);
+	 
 	 // ### Histogramming the residual range ###
 	 hdataPionRR->Fill(Pionresrange[nPionSpts]);
 	 // ### Histogramming the Pitch ###
@@ -949,8 +937,52 @@ for (Long64_t jentry=0; jentry<nentries;jentry++)
 	 hdataPiondEdXvsRR->Fill(Pionresrange[nPionSpts], Piondedx[nPionSpts]);
 	 
 	 nPionSpts++;
+
 	 
 	 }//<---End spacepoints loop
+      
+      // #####################################################
+      // ### Check to see if this track is consistent with ###
+      // ###          being from a stopping track 	   ###
+      // #####################################################
+      if(InitialKinEnAtTPC < 300)
+         {
+	 // ### Filling the  tracks PIDA value ###
+	 hdataLowMomentumTrkPIDA->Fill(trkpida[nTPCtrk][1]);
+	 
+	 // ##########################################
+	 // ###  If the PIDA is between 9 and 13   ###
+	 // ##########################################
+	 if(trkpida[nTPCtrk][1] >= 8 && trkpida[nTPCtrk][1] <= 13)
+	    {
+	    
+	    //### Setting the last energy points variable ###
+	    double lastDeltaE = 0;
+	    
+	    // ### Loop over the last five points of the track ###
+	    if(nPionSpts >= 5)
+	       {
+	       for(int nlastspts = nPionSpts - 1; nlastspts > nPionSpts - 5; nlastspts--)
+	          {
+		  // ### Add up the energy in the last 5 points ###
+		  lastDeltaE += (Pionpitchhit[nlastspts] * Piondedx[nlastspts]);
+
+	          }//<---End nlastspts loop
+
+	       }//<---End only looking if the track has 5 points
+	    
+	    // ### IF the Delta E is between 7 and 25, tag as a stopping track ###
+	    if(lastDeltaE >= 10 && lastDeltaE <= 30)
+	       {
+	       // ### Only setting the flag if we are tagging events ###
+	       if(RemoveStopping)
+	          {StoppingParticle[nTPCtrk] = true;}
+	       
+	       }
+	    
+	    
+	    }//<---End looking at 9 < PIDA < 13
+	 }//<---End looking at low momentum tracks
       
       
       }//<---End nTPCtrk loop 
@@ -994,7 +1026,12 @@ for (Long64_t jentry=0; jentry<nentries;jentry++)
       // ### Temp Variables for fixing ###
       double tempRR[1000] = {0.};
       double tempdEdX[1000] = {0.};
+      double tempdQdX[1000] = {0.};
       double tempPitch[1000] = {0.};
+      
+      double tempx[1000] = {0.};
+      double tempy[1000] = {0.};
+      double tempz[1000] = {0.};
       
       // ### Start at the last point ###
       for(int aa = nPionSpts; aa > -1; aa--)
@@ -1007,7 +1044,12 @@ for (Long64_t jentry=0; jentry<nentries;jentry++)
 	 // ### Reorder the points ###
 	 tempRR[bb] = Pionresrange[aa];
 	 tempdEdX[bb]     = Piondedx[aa];
+	 tempdQdX[bb]     = Piondqdx[aa];
 	 tempPitch[bb] = Pionpitchhit[aa];
+	 
+	 tempx[bb] = PionSptsX[aa];
+	 tempy[bb] = PionSptsY[aa];
+	 tempz[bb] = PionSptsZ[aa];
 	 
 	 bb++;
 	 }//<---end aa 
@@ -1019,8 +1061,12 @@ for (Long64_t jentry=0; jentry<nentries;jentry++)
          {
 	 Pionresrange[reorder] = tempRR[reorder];
 	 Piondedx[reorder]     = tempdEdX[reorder];
+	 Piondqdx[reorder]     = tempdQdX[reorder];
 	 Pionpitchhit[reorder] = tempPitch[reorder];
 	 
+	 PionSptsX[reorder] = tempx[reorder];
+	 PionSptsY[reorder] = tempy[reorder];
+	 PionSptsZ[reorder] = tempz[reorder];
 	 
 	 }//<---End reorder loop
       
@@ -1066,7 +1112,13 @@ for (Long64_t jentry=0; jentry<nentries;jentry++)
 	    // ##########################################################
 	    // ### Set this point equal to the previous point's dE/dX ###
 	    // ##########################################################
+	    
+	    hdataFixedCaloPointZX->Fill(PionSptsZ[caloPoints], PionSptsX[caloPoints], Piondedx[caloPoints]);
+	    hdataFixedCaloPointZY->Fill(PionSptsZ[caloPoints], PionSptsY[caloPoints], Piondedx[caloPoints]);
+	    
 	    Piondedx[caloPoints] = Piondedx[caloPoints - 1];
+	    
+	    
 	    }//<---End large and at the end of the track
 	 
 	 // ############################################################
@@ -1074,10 +1126,14 @@ for (Long64_t jentry=0; jentry<nentries;jentry++)
 	 // ############################################################
 	 else if(Piondedx[caloPoints] > 40. && caloPoints < (nPionSpts-1) && caloPoints > 0.)
 	    {
-	    std::cout<<"Large Fluctuation"<<std::endl;
+	    
 	    // #################################################################
 	    // ### Then just average between the previous and the next point ###
 	    // #################################################################
+	    
+	    hdataFixedCaloPointZX->Fill(PionSptsZ[caloPoints], PionSptsX[caloPoints], Piondedx[caloPoints]);
+	    hdataFixedCaloPointZY->Fill(PionSptsZ[caloPoints], PionSptsY[caloPoints], Piondedx[caloPoints]);
+	    
 	    Piondedx[caloPoints] = ( (Piondedx[caloPoints - 1] + Piondedx[caloPoints + 1]) / 2.);
 	    
 	    }//<--End large and not at the end of the track
@@ -1099,7 +1155,7 @@ for (Long64_t jentry=0; jentry<nentries;jentry++)
 	 // ### If dE/dX > 15 and more than 10cm from the end of the track and isn't the first or last point ###
 	 if(Piondedx[caloPoints] > 15. && Pionresrange[caloPoints] > 10. && caloPoints > 0.&& caloPoints < (nPionSpts-1) )
 	    {
-	    std::cout<<"Small Fluctuation"<<std::endl;
+	    
 	    // ### Check to see if the previous point is greater than 15 ###
 	    if(Piondedx[caloPoints-1] > 15.)
 	       {
@@ -1107,11 +1163,18 @@ for (Long64_t jentry=0; jentry<nentries;jentry++)
 	       if(Piondedx[caloPoints+1] > 15. )
 	          {
 		  // ### Go 2 points before and after ###
+		  hdataFixedCaloPointZX->Fill(PionSptsZ[caloPoints], PionSptsX[caloPoints], Piondedx[caloPoints]);
+	          hdataFixedCaloPointZY->Fill(PionSptsZ[caloPoints], PionSptsY[caloPoints], Piondedx[caloPoints]);
+		  
 		  Piondedx[caloPoints] = ( (Piondedx[caloPoints - 2] + Piondedx[caloPoints + 2]) / 2.);
 		  }
 	       else
 	          {
 		  // ### Go 2 points before and one point after ###
+		  
+		  hdataFixedCaloPointZX->Fill(PionSptsZ[caloPoints], PionSptsX[caloPoints], Piondedx[caloPoints]);
+	          hdataFixedCaloPointZY->Fill(PionSptsZ[caloPoints], PionSptsY[caloPoints], Piondedx[caloPoints]);
+		  
 		  Piondedx[caloPoints] = ( (Piondedx[caloPoints - 2] + Piondedx[caloPoints + 1]) / 2.);
 		  }
 	        }
@@ -1119,10 +1182,18 @@ for (Long64_t jentry=0; jentry<nentries;jentry++)
 	       {
 	       if(Piondedx[caloPoints+1] > 15. )
 	          {
+		  
+		  hdataFixedCaloPointZX->Fill(PionSptsZ[caloPoints], PionSptsX[caloPoints], Piondedx[caloPoints]);
+	          hdataFixedCaloPointZY->Fill(PionSptsZ[caloPoints], PionSptsY[caloPoints], Piondedx[caloPoints]);
+		  
 		  Piondedx[caloPoints] = ( (Piondedx[caloPoints - 1] + Piondedx[caloPoints+2]) / 2.);
 		  }
 	       else
 	          {
+		  
+		  hdataFixedCaloPointZX->Fill(PionSptsZ[caloPoints], PionSptsX[caloPoints], Piondedx[caloPoints]);
+	          hdataFixedCaloPointZY->Fill(PionSptsZ[caloPoints], PionSptsY[caloPoints], Piondedx[caloPoints]);
+		  
 		  Piondedx[caloPoints] = ( (Piondedx[caloPoints - 2] + Piondedx[caloPoints + 1]) / 2.);
 		  }
 	       }
@@ -1143,6 +1214,12 @@ for (Long64_t jentry=0; jentry<nentries;jentry++)
       {
       
       hdataPiondEdXvsRRFix->Fill(Pionresrange[caloPoints], Piondedx[caloPoints]);
+      
+      hdataPiondEdXFixed->Fill(Piondedx[caloPoints]);
+      
+      hdataPiondQdXFixed->Fill(Piondqdx[caloPoints]);
+      
+      //std::cout<<"dQdX = "<<Piondqdx[caloPoints]<<std::endl;
       
       }//<---End Fix
    
@@ -1300,7 +1377,10 @@ hdataTrkInitialX->Write();
 hdataTrkInitialY->Write();
 hdataRawWCTRKMomentum->Write();
 hdataPiondEdXvsRRFix->Write();
-
-
+hdataPiondEdXFixed->Write();
+hdataFixedCaloPointZX->Write();
+hdataFixedCaloPointZY->Write();
+hdataPiondQdXFixed->Write();
+hdataPiondQdX->Write();
 
 }//<---End Data::Loop()

@@ -7,13 +7,13 @@
 // #######################
 // ### Load Data Plots ###
 // #######################
-TFile *f1 = new TFile("./histo_ROOTFILES/DataNew_PionXSection_histos_reorderingOnly.root");
+TFile *f1 = new TFile("./histo_ROOTFILES/DataNew_PionXSection_histos_reordering_FixExtremeAndSmallFluctuation.root");
 
 
 // ###################################
 // ### Load Pion Monte Carlo Plots ###
 // ###################################
-TFile *f2 = new TFile("./histo_ROOTFILES/PionMC_NewMatch_wScalings_dEdXScale_Reordering.root");
+TFile *f2 = new TFile("./histo_ROOTFILES/PionMC_NewMatch_wScalings_dEdXScale_Reordering_FixExtremeAndSmallFluctuation.root");
 
 //--------------------------------------------------------------------------------------------------------------
 //						Delta X WC-TPC Track
@@ -317,7 +317,7 @@ t->DrawLatex(0.13,0.84,"");
 //--------------------------------------------------------------------------------------------------------------
 
 // ### Getting the data dE/dX plot ###
-TH1F *hDatadEdX = (TH1F*)f1->Get("hdataPiondEdX");
+TH1F *hDatadEdX = (TH1F*)f1->Get("hdataPiondEdXFixed");
 
 // ### Labeling the axis ###
 hDatadEdX->GetXaxis()->SetTitle("dE/dX (MeV / cm)");
@@ -327,7 +327,7 @@ hDatadEdX->GetYaxis()->SetTitle("Events / 0.25 MeV/cm");
 hDatadEdX->GetYaxis()->CenterTitle(); 
 
 // ### Getting the MC dE/dX plot ###
-TH1F *hMCdEdX = (TH1F*)f2->Get("hdataPiondEdX");
+TH1F *hMCdEdX = (TH1F*)f2->Get("hdataPiondEdXFixed");
 
 // ### Labeling the axis ###
 hMCdEdX->GetXaxis()->SetTitle("dE/dX (MeV / cm)");
