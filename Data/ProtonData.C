@@ -71,6 +71,26 @@ TH1D *hdataInitialKEMomentumUnWeighted = new TH1D("hdataInitialKEMomentumUnWeigh
 /////////////////////////////////// "Matched Track" dE/dX /////////////////////////////////////////////////////
 TH1D *hdataProtondEdX = new TH1D("hdataProtondEdX", "Matched Track dE/dX", 200, 0, 50);
 
+
+// -------------------------------------------------------------------------------------------------------------------------
+
+/////////////////////////////////// "Matched Track" dE/dX in Q1 /////////////////////////////////////////////////////
+TH1D *hdataProtondEdXQ1 = new TH1D("hdataProtondEdXQ1", "Matched Track dE/dX Q1", 200, 0, 50);
+
+/////////////////////////////////// "Matched Track" dE/dX in Q2 /////////////////////////////////////////////////////
+TH1D *hdataProtondEdXQ2 = new TH1D("hdataProtondEdXQ2", "Matched Track dE/dX Q2", 200, 0, 50);
+
+/////////////////////////////////// "Matched Track" dE/dX in Q3 /////////////////////////////////////////////////////
+TH1D *hdataProtondEdXQ3 = new TH1D("hdataProtondEdXQ3", "Matched Track dE/dX Q2", 200, 0, 50);
+
+/////////////////////////////////// "Matched Track" dE/dX in Q4 /////////////////////////////////////////////////////
+TH1D *hdataProtondEdXQ4 = new TH1D("hdataProtondEdXQ4", "Matched Track dE/dX Q2", 200, 0, 50);
+
+
+// --------------------------------------------------------------------------------------------------------------------------
+
+
+
 /////////////////////////////////// "Matched Track" dQ/dX  /////////////////////////////////////////////////////
 TH1D *hdataProtondQdX = new TH1D("hdataProtondQdX", "Matched Track dQ/dX", 15000, 0, 15000);
 
@@ -934,6 +954,8 @@ for (Long64_t jentry=0; jentry<nentries;jentry++)
 	 ProtonSptsY[nProtonSpts] = trky[nTPCtrk][nspts];
 	 ProtonSptsZ[nProtonSpts] = trkz[nTPCtrk][nspts];
 	 
+	 
+	 
 	 // ### Histogramming the dE/dX ###
 	 hdataProtondEdX->Fill(Protondedx[nProtonSpts]);
 	 // ### Histogramming the residual range ###
@@ -1309,6 +1331,19 @@ int protonTrkNumber = -1;
       hStoppedProtonRR->Fill(Protonresrange[npoints]);
       hStoppedProtonTrkPitch->Fill(Protonpitchhit[npoints]);
       
+      // =====================================================================
+	 // === Breaking the TPC into 4 quadrants to analyze the dE/dX 
+	 // ===               Q1: 0 cm    < z    < 22.5 cm
+	 // ===               Q2: 22.5 cm < z    < 45 cm
+	 // ===               Q3: 45 cm   < z    < 67.5 cm
+	 // ===               Q4: 67.5 cm < z    < 90 cm
+	 // =====================================================================
+	 
+	 if(ProtonSptsZ[npoints] > 0 && ProtonSptsZ[npoints] < 22.5){hdataProtondEdXQ1->Fill(Protondedx[npoints]);}
+	 if(ProtonSptsZ[npoints] > 22.5 && ProtonSptsZ[npoints] < 45){hdataProtondEdXQ2->Fill(Protondedx[npoints]);}
+	 if(ProtonSptsZ[npoints] > 45 && ProtonSptsZ[npoints] < 67.5){hdataProtondEdXQ3->Fill(Protondedx[npoints]);}
+	 if(ProtonSptsZ[npoints] > 67.5 && ProtonSptsZ[npoints] < 90){hdataProtondEdXQ4->Fill(Protondedx[npoints]);}
+      
       
       // ################################################
       // ### Subtracting the energy loss in this step ###
@@ -1403,5 +1438,11 @@ hNearbyProtonTrackDeltaZ->Write();
 hRecoLength->Write();
 hdataProtondQdXFixed->Write();
 hdataProtondQdX->Write();
+
+hdataProtondEdXQ1->Write();
+hdataProtondEdXQ2->Write();
+hdataProtondEdXQ3->Write();
+hdataProtondEdXQ4->Write();
+
    
 }

@@ -1,8 +1,17 @@
 {
 
-#include <TFile.h>
-#include <TH1F.h>
-#include <TCanvas.h>
+// ######################################################################################################
+// ######################################################################################################
+// ### To obtain these numbers first set them equal to 1.0 and then use the printed output in the file
+// ###   as input into "PlotBreakDown.ods" spreadsheet found in this repository....the output of the 
+// ###       spreadsheet goes into these catagories to scale the particle species appropriately
+// ######################################################################################################
+// ######################################################################################################
+double PionPercentage     = 0.25399;
+double MuonPercentage     = 12.745;
+double ElectronPercentage = 0.59864;
+double PhotonPercentage   = 0.93574;
+double KaonPercentage     = 181.425;
 
 
 // #######################
@@ -133,11 +142,11 @@ hPhotonMCIncKE->GetYaxis()->CenterTitle();
 // ======================= Normalizing MC to Data =============================
 // ============================================================================
 
-double PionMCIntegralIncKE     = hPionIncKE->Integral() ;//* 0.484;
-double MuonMCIntegralIncKE     = hMuonMCIncKE->Integral() ;//* 0.022;
-double ElectronMCIntegralIncKE = hElectronMCIncKE->Integral() ;//* 0.494;
-double KaonMCIntegralTrkIncKE  = hKaonMCIncKE->Integral();//0.00035
-double PhotonMCIntegralTrkIncKE= hPhotonMCIncKE->Integral();//0.00035
+double PionMCIntegralIncKE     = hPionIncKE->Integral() ;
+double MuonMCIntegralIncKE     = hMuonMCIncKE->Integral() ;
+double ElectronMCIntegralIncKE = hElectronMCIncKE->Integral() ;
+double KaonMCIntegralTrkIncKE  = hKaonMCIncKE->Integral();
+double PhotonMCIntegralTrkIncKE= hPhotonMCIncKE->Integral();
 
 
 // ### Overall MC scale factor ###
@@ -148,15 +157,6 @@ double scaleMCIncKE = DataIntegralTrkLength/MCIntegralTrkLength;
 
 
 
-// ### Scaling by particle species ###
-double PionPercentage     = 0.25399;
-double MuonPercentage     = 12.745;
-double ElectronPercentage = 0.59864;
-double PhotonPercentage   = 0.93574;//0.085;
-double KaonPercentage     = 181.425;//0.0035;
-
-
-// ### Scale each particle species ###
 
 // == Scale Pions ===
 hPionIncKE->Sumw2();
